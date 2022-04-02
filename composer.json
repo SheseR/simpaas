@@ -1,0 +1,19 @@
+{
+  "name": "levtechdev/simpaas",
+  "type": "library",
+  "description": "SimPass framework",
+  "keywords": ["simpass"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Lev Tech Dev",
+      "email": "test@frendino.com",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "Core": "src/"
+    }
+  }
+}
