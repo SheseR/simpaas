@@ -1,10 +1,10 @@
 <?php
-namespace Levtechdev\SimPaas\Model\Mysql;
+namespace Levtechdev\Simpaas\Model\Mysql;
 
-use Levtechdev\SimPaas\Authorization\Helper\Auth;
-use Levtechdev\SimPaas\Helper\RandomHash;
-use Levtechdev\SimPaas\Model\AbstractModel;
-use Levtechdev\SimPaas\ResourceModel\Mysql\AbstractMysqlResourceModel;
+use Levtechdev\Simpaas\Authorization\Helper\Auth;
+use Levtechdev\Simpaas\Helper\RandomHash;
+use Levtechdev\Simpaas\Model\AbstractModel;
+use Levtechdev\Simpaas\ResourceModel\Mysql\AbstractMysqlResourceModel;
 
 /**
  * @method array getLockedAttributes()

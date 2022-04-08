@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Authorization\Model;
+namespace Levtechdev\Simpaas\Authorization\Model;
 
 use Exception;
 use UnexpectedValueException;
-use Levtechdev\SimPaas\Helper\RandomHash;
-use Levtechdev\SimPaas\Authorization\ResourceModel\Role as RoleResourceModel;
+use Levtechdev\Simpaas\Helper\RandomHash;
+use Levtechdev\Simpaas\Authorization\ResourceModel\Role as RoleResourceModel;
 
 /**
  * Override this class in your app by Service Provider. It gives you the possibility to implement new roles via constants

@@ -1,7 +1,7 @@
 <?php
-namespace Levtechdev\SimPaas\Model\Redis;
+namespace Levtechdev\Simpaas\Model\Redis;
 
-use Levtechdev\SimPaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Model\AbstractModel;
 
 abstract class AbstractRedisModel extends AbstractModel
 {

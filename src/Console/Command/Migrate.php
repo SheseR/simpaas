@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Console\Command;
+namespace Levtechdev\Simpaas\Console\Command;
 
 use Illuminate\Database\Console\Migrations\MigrateCommand;
 

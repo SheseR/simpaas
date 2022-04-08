@@ -1,10 +1,10 @@
 <?php
 
-namespace Levtechdev\SimPaas\Repository;
+namespace Levtechdev\Simpaas\Repository;
 
 use Exception;
-use Levtechdev\SimPaas\Collection\AbstractCollection;
-use Levtechdev\SimPaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Collection\AbstractCollection;
+use Levtechdev\Simpaas\Model\AbstractModel;
 
 abstract class AbstractRepository
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Levtechdev\SimPaas\Authorization\Repository;
+namespace Levtechdev\Simpaas\Authorization\Repository;
 
-use Levtechdev\SimPaas\Authorization\ResourceModel\Collection\RoleCollection;
-use Levtechdev\SimPaas\Repository\Redis\AbstractRedisRepository;
+use Levtechdev\Simpaas\Authorization\ResourceModel\Collection\RoleCollection;
+use Levtechdev\Simpaas\Repository\Redis\AbstractRedisRepository;
 
 class RoleRepository extends AbstractRedisRepository
 {

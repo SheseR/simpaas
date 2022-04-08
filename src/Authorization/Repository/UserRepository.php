@@ -1,9 +1,9 @@
 <?php
 
-namespace Levtechdev\SimPaas\Authorization\Repository;
+namespace Levtechdev\Simpaas\Authorization\Repository;
 
-use Levtechdev\SimPaas\Authorization\Model\User;
-use Levtechdev\SimPaas\Repository\Redis\AbstractRedisRepository;
+use Levtechdev\Simpaas\Authorization\Model\User;
+use Levtechdev\Simpaas\Repository\Redis\AbstractRedisRepository;
 use SimPass\Authorization\ResourceModel\Collection\UserCollection;
 
 /**

@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Authorization\Helper;
+namespace Levtechdev\Simpaas\Authorization\Helper;
 
-use Levtechdev\SimPaas\Authorization\Model\User;
-use Levtechdev\SimPaas\Authorization\Repository\RoleRepository;
-use Levtechdev\SimPaas\Authorization\Repository\UserRepository;
-use Levtechdev\SimPaas\Exceptions\EntityNotFoundException;
-use Levtechdev\SimPaas\Helper\Core;
+use Levtechdev\Simpaas\Authorization\Model\User;
+use Levtechdev\Simpaas\Authorization\Repository\RoleRepository;
+use Levtechdev\Simpaas\Authorization\Repository\UserRepository;
+use Levtechdev\Simpaas\Exceptions\EntityNotFoundException;
+use Levtechdev\Simpaas\Helper\Core;
 use SimPass\Authorization\ResourceModel\Collection\UserCollection;
 
 class Auth extends Core

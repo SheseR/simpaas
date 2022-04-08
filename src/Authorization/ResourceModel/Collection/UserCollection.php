@@ -2,9 +2,9 @@
 
 namespace SimPass\Authorization\ResourceModel\Collection;
 
-use Levtechdev\SimPaas\Authorization\Model\User;
-use Levtechdev\SimPaas\Collection\Redis\AbstractRedisCollection;
-use Levtechdev\SimPaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Authorization\Model\User;
+use Levtechdev\Simpaas\Collection\Redis\AbstractRedisCollection;
+use Levtechdev\Simpaas\Model\AbstractModel;
 
 class UserCollection extends AbstractRedisCollection
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Levtechdev\SimPaas;
+namespace Levtechdev\Simpaas;
 
 use Illuminate\Redis\RedisManager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
-use Levtechdev\SimPaas\Database\Redis\RedisAdapter;
+use Levtechdev\Simpaas\Database\Redis\RedisAdapter;
 
 class RedisProvider extends ServiceProvider
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Levtechdev\SimPaas\Helper;
+namespace Levtechdev\Simpaas\Helper;
 
-use Levtechdev\SimPaas\Exceptions\EntityNotDefinedException;
+use Levtechdev\Simpaas\Exceptions\EntityNotDefinedException;
 use App\Core\Model\DataObject;
 
 class JsonSchemaConfig extends Core

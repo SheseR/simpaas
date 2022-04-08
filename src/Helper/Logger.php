@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Helper;
+namespace Levtechdev\Simpaas\Helper;
 
-use Levtechdev\SimPaas\Service\Logger\Monolog\Formatter\JsonFormatter;
+use Levtechdev\Simpaas\Service\Logger\Monolog\Formatter\JsonFormatter;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
-use Levtechdev\SimPaas\Service\Logger\Monolog\Formatter\InlineFormatter;
-use Levtechdev\SimPaas\Service\Logger\Monolog\Formatter\PrintrFormatter;
-use Levtechdev\SimPaas\Service\Logger\Monolog\Formatter\XmlFormatter;
-use Levtechdev\SimPaas\Service\Logger\Monolog\Processor\LogProcessor;
+use Levtechdev\Simpaas\Service\Logger\Monolog\Formatter\InlineFormatter;
+use Levtechdev\Simpaas\Service\Logger\Monolog\Formatter\PrintrFormatter;
+use Levtechdev\Simpaas\Service\Logger\Monolog\Formatter\XmlFormatter;
+use Levtechdev\Simpaas\Service\Logger\Monolog\Processor\LogProcessor;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Processor\MemoryUsageProcessor;

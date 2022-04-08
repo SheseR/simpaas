@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\SimPaas\Console\Command\Management;
+namespace Levtechdev\Simpaas\Console\Command\Management;
 
 use Illuminate\Console\ConfirmableTrait;
 use SimPass\Console\Command\AbstractCommand;

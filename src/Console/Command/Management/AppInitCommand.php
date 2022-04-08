@@ -1,12 +1,12 @@
 <?php
 
-namespace Levtechdev\SimPaas\Console\Command\Management;
+namespace Levtechdev\Simpaas\Console\Command\Management;
 
-use Levtechdev\SimPaas\Authorization\Model\User;
-use Levtechdev\SimPaas\Authorization\Repository\UserRepository;
-use Levtechdev\SimPaas\Helper\Core;
+use Levtechdev\Simpaas\Authorization\Model\User;
+use Levtechdev\Simpaas\Authorization\Repository\UserRepository;
+use Levtechdev\Simpaas\Helper\Core;
 use SimPass\Console\Command\AbstractCommand;
-use Levtechdev\SimPaas\Authorization\Migration\SampleData;
+use Levtechdev\Simpaas\Authorization\Migration\SampleData;
 
 class AppInitCommand extends AbstractCommand
 {

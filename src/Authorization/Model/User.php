@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Authorization\Model;
+namespace Levtechdev\Simpaas\Authorization\Model;
 
 use Firebase\JWT\JWT;
-use Levtechdev\SimPaas\Helper\RandomHash;
-use Levtechdev\SimPaas\Authorization\ResourceModel\User as UserResource;
+use Levtechdev\Simpaas\Helper\RandomHash;
+use Levtechdev\Simpaas\Authorization\ResourceModel\User as UserResource;
 
 /**
  * @method string getToken()

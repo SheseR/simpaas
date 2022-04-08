@@ -1,10 +1,10 @@
 <?php
 
-namespace Levtechdev\SimPaas\Authorization\ResourceModel;
+namespace Levtechdev\Simpaas\Authorization\ResourceModel;
 
-use Levtechdev\SimPaas\Model\AbstractModel;
-use Levtechdev\SimPaas\Authorization\Model\User as UserModel;
-use Levtechdev\SimPaas\ResourceModel\Redis\AbstractRedisResourceModel;
+use Levtechdev\Simpaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Authorization\Model\User as UserModel;
+use Levtechdev\Simpaas\ResourceModel\Redis\AbstractRedisResourceModel;
 
 class User extends AbstractRedisResourceModel
 {

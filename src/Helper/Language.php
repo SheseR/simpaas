@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Helper;
+namespace Levtechdev\Simpaas\Helper;
 
 class Language extends Core
 {

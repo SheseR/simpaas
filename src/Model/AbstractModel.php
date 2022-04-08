@@ -1,10 +1,10 @@
 <?php
 
-namespace Levtechdev\SimPaas\Model;
+namespace Levtechdev\Simpaas\Model;
 
-use Levtechdev\SimPaas\ResourceModel\AbstractResourceModel;
-use Levtechdev\SimPaas\Exceptions\EntityNotFoundException;
-use Levtechdev\SimPaas\Helper\RandomHash;
+use Levtechdev\Simpaas\ResourceModel\AbstractResourceModel;
+use Levtechdev\Simpaas\Exceptions\EntityNotFoundException;
+use Levtechdev\Simpaas\Helper\RandomHash;
 use Exception;
 
 /**

@@ -1,8 +1,8 @@
 <?php
-namespace Levtechdev\SimPaas\Database\Redis;
+namespace Levtechdev\Simpaas\Database\Redis;
 
 use Illuminate\Redis\RedisManager;
-use Levtechdev\SimPaas\Database\DbAdapterInterface;
+use Levtechdev\Simpaas\Database\DbAdapterInterface;
 
 class RedisAdapter extends RedisManager implements DbAdapterInterface
 {

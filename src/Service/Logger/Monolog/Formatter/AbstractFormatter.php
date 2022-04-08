@@ -1,9 +1,9 @@
 <?php
-namespace Levtechdev\SimPaas\Service\Logger\Monolog\Formatter;
+namespace Levtechdev\Simpaas\Service\Logger\Monolog\Formatter;
 
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Logger as Monolog;
-use Levtechdev\SimPaas\Helper\Logger;
+use Levtechdev\Simpaas\Helper\Logger;
 
 abstract class AbstractFormatter implements FormatterInterface
 {

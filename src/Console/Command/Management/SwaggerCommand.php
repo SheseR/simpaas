@@ -1,15 +1,15 @@
 <?php
 
-namespace Levtechdev\SimPaas\Console\Command\Management;
+namespace Levtechdev\Simpaas\Console\Command\Management;
 
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use OpenApi\Annotations\OpenApi;
 use OpenApi\Annotations\Operation;
 use OpenApi\Generator;
-use Levtechdev\SimPaas\Authorization\Repository\RoleRepository;
-use Levtechdev\SimPaas\Authorization\Repository\RuleRepository;
-use Levtechdev\SimPaas\Authorization\Repository\UserRepository;
+use Levtechdev\Simpaas\Authorization\Repository\RoleRepository;
+use Levtechdev\Simpaas\Authorization\Repository\RuleRepository;
+use Levtechdev\Simpaas\Authorization\Repository\UserRepository;
 
 class SwaggerCommand extends Command
 {

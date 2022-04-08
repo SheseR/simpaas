@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\SimPaas\Exceptions;
+namespace Levtechdev\Simpaas\Exceptions;
 
 /**
  * Class MysqlUpsertException

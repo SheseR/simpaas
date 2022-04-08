@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Database\Mysql;
+namespace Levtechdev\Simpaas\Database\Mysql;
 
 use Illuminate\Database\Query\Builder;
 use Psr\Log\InvalidArgumentException;
-use Levtechdev\SimPaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Model\AbstractModel;
 
 class QueryBuilder
 {

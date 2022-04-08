@@ -1,10 +1,10 @@
 <?php
 
-namespace Levtechdev\SimPaas\Middleware\Http;
+namespace Levtechdev\Simpaas\Middleware\Http;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Levtechdev\SimPaas\Helper\Logger;
+use Levtechdev\Simpaas\Helper\Logger;
 
 class LoggerMiddleware
 {

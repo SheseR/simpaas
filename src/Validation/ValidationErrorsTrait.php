@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Validation;
+namespace Levtechdev\Simpaas\Validation;
 
 trait ValidationErrorsTrait
 {

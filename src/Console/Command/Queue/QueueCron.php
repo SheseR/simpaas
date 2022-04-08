@@ -1,8 +1,8 @@
 <?php
 
-namespace Levtechdev\SimPaas\Console\Command\Queue;
+namespace Levtechdev\Simpaas\Console\Command\Queue;
 
-use Levtechdev\SimPaas\Helper\Logger;
+use Levtechdev\Simpaas\Helper\Logger;
 
 class QueueCron extends BaseQueueCommand
 {

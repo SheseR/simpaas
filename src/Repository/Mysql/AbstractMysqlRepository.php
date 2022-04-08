@@ -1,13 +1,13 @@
 <?php
 
-namespace Levtechdev\SimPaas\Repository\Mysql;
+namespace Levtechdev\Simpaas\Repository\Mysql;
 
-use Levtechdev\SimPaas\Collection\AbstractCollection;
-use Levtechdev\SimPaas\Collection\Mysql\AbstractMysqlCollection;
-use Levtechdev\SimPaas\Exceptions\NotImplementedException;
-use Levtechdev\SimPaas\Repository\AbstractRepository;
-use Levtechdev\SimPaas\Exceptions\MysqlUpsertException;
-use Levtechdev\SimPaas\Validation\ValidationErrorsTrait;
+use Levtechdev\Simpaas\Collection\AbstractCollection;
+use Levtechdev\Simpaas\Collection\Mysql\AbstractMysqlCollection;
+use Levtechdev\Simpaas\Exceptions\NotImplementedException;
+use Levtechdev\Simpaas\Repository\AbstractRepository;
+use Levtechdev\Simpaas\Exceptions\MysqlUpsertException;
+use Levtechdev\Simpaas\Validation\ValidationErrorsTrait;
 
 class AbstractMysqlRepository extends AbstractRepository
 {

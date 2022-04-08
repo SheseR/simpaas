@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\ResourceModel;
+namespace Levtechdev\Simpaas\ResourceModel;
 
-use Levtechdev\SimPaas\Model\AbstractModel;
-use Levtechdev\SimPaas\Database\DbAdapterInterface;
+use Levtechdev\Simpaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Database\DbAdapterInterface;
 
 abstract class AbstractResourceModel
 {

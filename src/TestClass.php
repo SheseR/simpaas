@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\SimPaas;
+namespace Levtechdev\Simpaas;
 
 class TestClass
 {

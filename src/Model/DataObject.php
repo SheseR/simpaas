@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\SimPaas\Model;
+namespace Levtechdev\Simpaas\Model;
 
 /**
  * Universal data container with array access implementation

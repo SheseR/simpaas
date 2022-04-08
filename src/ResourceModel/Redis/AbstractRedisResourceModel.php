@@ -1,15 +1,15 @@
 <?php
-namespace Levtechdev\SimPaas\ResourceModel\Redis;
+namespace Levtechdev\Simpaas\ResourceModel\Redis;
 
 use Illuminate\Contracts\Redis\Connection;
-use Levtechdev\SimPaas\Collection\Redis\AbstractRedisCollection;
-use Levtechdev\SimPaas\Database\DbAdapterInterface;
-use Levtechdev\SimPaas\Database\Redis\RedisAdapter;
-use Levtechdev\SimPaas\Exceptions\EntityNotFoundException;
-use Levtechdev\SimPaas\Exceptions\MethodNotAllowedException;
-use Levtechdev\SimPaas\Model\AbstractModel;
-use Levtechdev\SimPaas\Model\Redis\AbstractRedisModel;
-use Levtechdev\SimPaas\ResourceModel\AbstractResourceModel;
+use Levtechdev\Simpaas\Collection\Redis\AbstractRedisCollection;
+use Levtechdev\Simpaas\Database\DbAdapterInterface;
+use Levtechdev\Simpaas\Database\Redis\RedisAdapter;
+use Levtechdev\Simpaas\Exceptions\EntityNotFoundException;
+use Levtechdev\Simpaas\Exceptions\MethodNotAllowedException;
+use Levtechdev\Simpaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Model\Redis\AbstractRedisModel;
+use Levtechdev\Simpaas\ResourceModel\AbstractResourceModel;
 
 class AbstractRedisResourceModel extends AbstractResourceModel
 {

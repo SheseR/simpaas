@@ -1,8 +1,8 @@
 <?php
 
-namespace Levtechdev\SimPaas\Authorization\Model;
+namespace Levtechdev\Simpaas\Authorization\Model;
 
-use Levtechdev\SimPaas\Model\Redis\AbstractRedisModel;
+use Levtechdev\Simpaas\Model\Redis\AbstractRedisModel;
 
 class Base extends AbstractRedisModel
 {

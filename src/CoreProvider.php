@@ -1,20 +1,20 @@
 <?php
 
-namespace Levtechdev\SimPaas;
+namespace Levtechdev\Simpaas;
 
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Redis\RedisManager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
-use Levtechdev\SimPaas\Authorization\Helper\Auth;
-use Levtechdev\SimPaas\Console\Command\Management\AppInitCommand;
-use Levtechdev\SimPaas\Console\Command\Management\KeyGenerateCommand;
-use Levtechdev\SimPaas\Console\Command\Management\MaintenanceModeCommand;
-use Levtechdev\SimPaas\Console\Command\Management\ResetLogFilesCommand;
-use Levtechdev\SimPaas\Helper\Operation;
-use Levtechdev\SimPaas\Helper\RandomHash;
-use Levtechdev\SimPaas\Helper\SystemInfo;
-use Levtechdev\SimPaas\Helper\Logger;
+use Levtechdev\Simpaas\Authorization\Helper\Auth;
+use Levtechdev\Simpaas\Console\Command\Management\AppInitCommand;
+use Levtechdev\Simpaas\Console\Command\Management\KeyGenerateCommand;
+use Levtechdev\Simpaas\Console\Command\Management\MaintenanceModeCommand;
+use Levtechdev\Simpaas\Console\Command\Management\ResetLogFilesCommand;
+use Levtechdev\Simpaas\Helper\Operation;
+use Levtechdev\Simpaas\Helper\RandomHash;
+use Levtechdev\Simpaas\Helper\SystemInfo;
+use Levtechdev\Simpaas\Helper\Logger;
 
 class CoreProvider extends ServiceProvider
 {

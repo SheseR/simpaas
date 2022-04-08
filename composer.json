@@ -27,14 +27,10 @@
   },
   "autoload": {
     "psr-4": {
-      "Levtechdev\\SimPaas\\": "src/"
+      "Levtechdev\\Simpaas\\": "src/"
     },
     "files": [
       "src/functions.php"
     ]
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "minimum-stability": "dev"
+  }
 }

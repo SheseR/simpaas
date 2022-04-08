@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Database\Mysql;
+namespace Levtechdev\Simpaas\Database\Mysql;
 
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Expression;
-use Levtechdev\SimPaas\Database\Mysql\Expression\ExpressionInterface;
-use Levtechdev\SimPaas\Exceptions\EntityNotValidException;
-use Levtechdev\SimPaas\Exceptions\MysqlCallbackException;
-use Levtechdev\SimPaas\Exceptions\MysqlUpsertException;
-use Levtechdev\SimPaas\Helper\Logger;
-use Levtechdev\SimPaas\Database\DbAdapterInterface;
-use Levtechdev\SimPaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Database\Mysql\Expression\ExpressionInterface;
+use Levtechdev\Simpaas\Exceptions\EntityNotValidException;
+use Levtechdev\Simpaas\Exceptions\MysqlCallbackException;
+use Levtechdev\Simpaas\Exceptions\MysqlUpsertException;
+use Levtechdev\Simpaas\Helper\Logger;
+use Levtechdev\Simpaas\Database\DbAdapterInterface;
+use Levtechdev\Simpaas\Model\AbstractModel;
 
 class MysqlAdapter implements DbAdapterInterface
 {

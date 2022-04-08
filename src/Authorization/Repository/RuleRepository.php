@@ -1,9 +1,9 @@
 <?php
 
-namespace Levtechdev\SimPaas\Authorization\Repository;
+namespace Levtechdev\Simpaas\Authorization\Repository;
 
-use Levtechdev\SimPaas\Authorization\ResourceModel\Collection\RuleCollection;
-use Levtechdev\SimPaas\Repository\Redis\AbstractRedisRepository;
+use Levtechdev\Simpaas\Authorization\ResourceModel\Collection\RuleCollection;
+use Levtechdev\Simpaas\Repository\Redis\AbstractRedisRepository;
 
 class RuleRepository extends AbstractRedisRepository
 {

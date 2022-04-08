@@ -6,8 +6,8 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Levtechdev\SimPaas\Helper\Logger;
-use Levtechdev\SimPaas\Helper\SystemInfo;
+use Levtechdev\Simpaas\Helper\Logger;
+use Levtechdev\Simpaas\Helper\SystemInfo;
 
 abstract class AbstractCommand extends Command
 {

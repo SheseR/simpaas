@@ -1,10 +1,10 @@
 <?php
 
-namespace Levtechdev\SimPaas\Service\Logger\Monolog\Processor;
+namespace Levtechdev\Simpaas\Service\Logger\Monolog\Processor;
 
 use Monolog\Logger as Monolog;
-use Levtechdev\SimPaas\Helper\Logger;
-use Levtechdev\SimPaas\Middleware\Http\LoggerMiddleware;
+use Levtechdev\Simpaas\Helper\Logger;
+use Levtechdev\Simpaas\Middleware\Http\LoggerMiddleware;
 
 class LogProcessor
 {

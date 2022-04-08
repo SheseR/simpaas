@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Console\Command\Management;
+namespace Levtechdev\Simpaas\Console\Command\Management;
 
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;

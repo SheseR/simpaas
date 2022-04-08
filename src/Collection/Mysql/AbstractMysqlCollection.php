@@ -1,22 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Collection\Mysql;
+namespace Levtechdev\Simpaas\Collection\Mysql;
 
 use Illuminate\Database\Query\Builder;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Levtechdev\SimPaas\Collection\AbstractCollection;
-use Levtechdev\SimPaas\Database\DbAdapterInterface;
-use Levtechdev\SimPaas\Database\Mysql\MysqlAdapter;
-use Levtechdev\SimPaas\Database\Mysql\QueryBuilder;
-use Levtechdev\SimPaas\Database\SearchCriteria;
-use Levtechdev\SimPaas\Exceptions\BadRequestException;
-use Levtechdev\SimPaas\Exceptions\EmptyCollectionException;
-use Levtechdev\SimPaas\Model\AbstractModel;
-use Levtechdev\SimPaas\Model\DataObject;
-use Levtechdev\SimPaas\Model\Mysql\AbstractMysqlModel;
-use Levtechdev\SimPaas\ResourceModel\Mysql\AbstractMysqlResourceModel;
-use Levtechdev\SimPaas\Exceptions\MysqlUpsertException;
-use Levtechdev\SimPaas\Exceptions\MysqlCallbackException;
+use Levtechdev\Simpaas\Collection\AbstractCollection;
+use Levtechdev\Simpaas\Database\DbAdapterInterface;
+use Levtechdev\Simpaas\Database\Mysql\MysqlAdapter;
+use Levtechdev\Simpaas\Database\Mysql\QueryBuilder;
+use Levtechdev\Simpaas\Database\SearchCriteria;
+use Levtechdev\Simpaas\Exceptions\BadRequestException;
+use Levtechdev\Simpaas\Exceptions\EmptyCollectionException;
+use Levtechdev\Simpaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Model\DataObject;
+use Levtechdev\Simpaas\Model\Mysql\AbstractMysqlModel;
+use Levtechdev\Simpaas\ResourceModel\Mysql\AbstractMysqlResourceModel;
+use Levtechdev\Simpaas\Exceptions\MysqlUpsertException;
+use Levtechdev\Simpaas\Exceptions\MysqlCallbackException;
 
 abstract class AbstractMysqlCollection extends AbstractCollection
 {
@@ -771,7 +771,7 @@ abstract class AbstractMysqlCollection extends AbstractCollection
      *
      * @throws BindingResolutionException
      * @throws MysqlCallbackException
-     * @throws \Levtechdev\SimPaas\Exceptions\EntityNotValidException
+     * @throws \Levtechdev\Simpaas\Exceptions\EntityNotValidException
      */
     public function deleteRecords(): int
     {

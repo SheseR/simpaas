@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Database\Mysql\Expression;
+namespace Levtechdev\Simpaas\Database\Mysql\Expression;
 
 /**
  * Interface ExpressionInterface

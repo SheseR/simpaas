@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\SimPaas\Helper;
+namespace Levtechdev\Simpaas\Helper;
 
 class DateHelper extends Core
 {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Service\Logger\Monolog\Handler;
+namespace Levtechdev\Simpaas\Service\Logger\Monolog\Handler;
 
 use Aws\Sqs\SqsClient;
 use Monolog\Logger;

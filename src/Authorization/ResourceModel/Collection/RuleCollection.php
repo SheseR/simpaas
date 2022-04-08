@@ -1,9 +1,9 @@
 <?php
 
-namespace Levtechdev\SimPaas\Authorization\ResourceModel\Collection;
+namespace Levtechdev\Simpaas\Authorization\ResourceModel\Collection;
 
-use Levtechdev\SimPaas\Authorization\Model\Rule;
-use Levtechdev\SimPaas\Collection\Redis\AbstractRedisCollection;
+use Levtechdev\Simpaas\Authorization\Model\Rule;
+use Levtechdev\Simpaas\Collection\Redis\AbstractRedisCollection;
 
 class RuleCollection extends AbstractRedisCollection
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Levtechdev\SimPaas\Collection\Redis;
+namespace Levtechdev\Simpaas\Collection\Redis;
 
-use Levtechdev\SimPaas\Collection\AbstractCollection;
-use Levtechdev\SimPaas\Database\SearchCriteria;
-use Levtechdev\SimPaas\Exceptions\NotImplementedException;
-use Levtechdev\SimPaas\Model\AbstractModel;
-use Levtechdev\SimPaas\Model\Redis\AbstractRedisModel;
+use Levtechdev\Simpaas\Collection\AbstractCollection;
+use Levtechdev\Simpaas\Database\SearchCriteria;
+use Levtechdev\Simpaas\Exceptions\NotImplementedException;
+use Levtechdev\Simpaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Model\Redis\AbstractRedisModel;
 
 abstract class AbstractRedisCollection extends AbstractCollection
 {

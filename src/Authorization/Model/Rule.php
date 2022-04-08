@@ -1,9 +1,9 @@
 <?php
 
-namespace Levtechdev\SimPaas\Authorization\Model;
+namespace Levtechdev\Simpaas\Authorization\Model;
 
-use Levtechdev\SimPaas\Helper\RandomHash;
-use Levtechdev\SimPaas\Authorization\ResourceModel\Rule as RuleResource;
+use Levtechdev\Simpaas\Helper\RandomHash;
+use Levtechdev\Simpaas\Authorization\ResourceModel\Rule as RuleResource;
 
 class Rule extends Base
 {

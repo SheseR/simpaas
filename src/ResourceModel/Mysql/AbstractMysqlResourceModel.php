@@ -1,21 +1,21 @@
 <?php
-namespace Levtechdev\SimPaas\ResourceModel\Mysql;
+namespace Levtechdev\Simpaas\ResourceModel\Mysql;
 
 use Illuminate\Database\Query\Builder;
-use Levtechdev\SimPaas\Database\DbAdapterInterface;
-use Levtechdev\SimPaas\Exceptions\MysqlCallbackException;
-use Levtechdev\SimPaas\Database\Mysql\MysqlAdapter;
-use Levtechdev\SimPaas\Exceptions\CouldNotDeleteEntity;
-use Levtechdev\SimPaas\Exceptions\EntityFieldNotUniqueException;
-use Levtechdev\SimPaas\Exceptions\EntityNotFoundException;
-use Levtechdev\SimPaas\Helper\JsonSchemaConfig;
-use Levtechdev\SimPaas\Model\AbstractModel;
-use Levtechdev\SimPaas\Model\DataObject;
-use Levtechdev\SimPaas\Model\Mysql\AbstractMysqlModel;
-use Levtechdev\SimPaas\ResourceModel\AbstractResourceModel;
-use Levtechdev\SimPaas\Exceptions\EntityNotDefinedException;
-use Levtechdev\SimPaas\Database\Mysql\Expression\MergeJsonObjectExpression;
-use Levtechdev\SimPaas\Database\Mysql\Expression\LockedAttributesExpression;
+use Levtechdev\Simpaas\Database\DbAdapterInterface;
+use Levtechdev\Simpaas\Exceptions\MysqlCallbackException;
+use Levtechdev\Simpaas\Database\Mysql\MysqlAdapter;
+use Levtechdev\Simpaas\Exceptions\CouldNotDeleteEntity;
+use Levtechdev\Simpaas\Exceptions\EntityFieldNotUniqueException;
+use Levtechdev\Simpaas\Exceptions\EntityNotFoundException;
+use Levtechdev\Simpaas\Helper\JsonSchemaConfig;
+use Levtechdev\Simpaas\Model\AbstractModel;
+use Levtechdev\Simpaas\Model\DataObject;
+use Levtechdev\Simpaas\Model\Mysql\AbstractMysqlModel;
+use Levtechdev\Simpaas\ResourceModel\AbstractResourceModel;
+use Levtechdev\Simpaas\Exceptions\EntityNotDefinedException;
+use Levtechdev\Simpaas\Database\Mysql\Expression\MergeJsonObjectExpression;
+use Levtechdev\Simpaas\Database\Mysql\Expression\LockedAttributesExpression;
 
 abstract class AbstractMysqlResourceModel extends AbstractResourceModel
 {

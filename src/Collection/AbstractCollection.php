@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Collection;
+namespace Levtechdev\Simpaas\Collection;
 
-use Levtechdev\SimPaas\Database\DbAdapterInterface;
-use Levtechdev\SimPaas\Model\AbstractModel as AbstractModel;
-use Levtechdev\SimPaas\Database\SearchCriteria;
+use Levtechdev\Simpaas\Database\DbAdapterInterface;
+use Levtechdev\Simpaas\Model\AbstractModel as AbstractModel;
+use Levtechdev\Simpaas\Database\SearchCriteria;
 
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
-use Levtechdev\SimPaas\ResourceModel\AbstractResourceModel;
+use Levtechdev\Simpaas\ResourceModel\AbstractResourceModel;
 use Traversable;
 
 abstract class AbstractCollection implements IteratorAggregate, Countable, ArrayAccess

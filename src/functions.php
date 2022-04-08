@@ -1,7 +1,7 @@
 <?php
 const DS = DIRECTORY_SEPARATOR;
 
-use Levtechdev\SimPaas\Helper\DateHelper;
+use Levtechdev\Simpaas\Helper\DateHelper;
 
 if (!function_exists('human_file_size')) {
     /**

@@ -1,10 +1,10 @@
 <?php
-namespace Levtechdev\SimPaas\Repository\Redis;
+namespace Levtechdev\Simpaas\Repository\Redis;
 
-use Levtechdev\SimPaas\Collection\AbstractCollection;
-use Levtechdev\SimPaas\Collection\Redis\AbstractRedisCollection;
-use Levtechdev\SimPaas\Exceptions\NotImplementedException;
-use Levtechdev\SimPaas\Repository\AbstractRepository;
+use Levtechdev\Simpaas\Collection\AbstractCollection;
+use Levtechdev\Simpaas\Collection\Redis\AbstractRedisCollection;
+use Levtechdev\Simpaas\Exceptions\NotImplementedException;
+use Levtechdev\Simpaas\Repository\AbstractRepository;
 
 class AbstractRedisRepository extends AbstractRepository
 {

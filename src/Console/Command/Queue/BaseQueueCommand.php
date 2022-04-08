@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\SimPaas\Console\Command\Queue;
+namespace Levtechdev\Simpaas\Console\Command\Queue;
 
 use SimPass\Console\Command\AbstractCommand;
 

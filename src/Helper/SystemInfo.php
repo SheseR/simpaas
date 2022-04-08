@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Helper;
+namespace Levtechdev\Simpaas\Helper;
 
 use Illuminate\Http\Request;
-use Levtechdev\SimPaas\Authorization\Helper\Auth;
-use Levtechdev\SimPaas\Authorization\Model\User;
+use Levtechdev\Simpaas\Authorization\Helper\Auth;
+use Levtechdev\Simpaas\Authorization\Model\User;
 
 class SystemInfo extends Core
 {

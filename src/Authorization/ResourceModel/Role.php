@@ -1,8 +1,8 @@
 <?php
 
-namespace Levtechdev\SimPaas\Authorization\ResourceModel;
+namespace Levtechdev\Simpaas\Authorization\ResourceModel;
 
-use Levtechdev\SimPaas\ResourceModel\Redis\AbstractRedisResourceModel;
+use Levtechdev\Simpaas\ResourceModel\Redis\AbstractRedisResourceModel;
 
 class Role extends AbstractRedisResourceModel
 {

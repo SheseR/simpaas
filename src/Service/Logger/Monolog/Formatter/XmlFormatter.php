@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\SimPaas\Service\Logger\Monolog\Formatter;
+namespace Levtechdev\Simpaas\Service\Logger\Monolog\Formatter;
 
 /**
  * Encodes whatever record data is passed to it as XML string output

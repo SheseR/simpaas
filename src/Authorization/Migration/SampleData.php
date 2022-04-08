@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Authorization\Migration;
+namespace Levtechdev\Simpaas\Authorization\Migration;
 
-use Levtechdev\SimPaas\Authorization\Model\Role;
-use Levtechdev\SimPaas\Authorization\Model\User;
-use Levtechdev\SimPaas\Authorization\Repository\RoleRepository;
-use Levtechdev\SimPaas\Authorization\Repository\RuleRepository;
-use Levtechdev\SimPaas\Authorization\Repository\UserRepository;
-use Levtechdev\SimPaas\Authorization\ResourceModel\Collection\RoleCollection;
-use Levtechdev\SimPaas\Authorization\ResourceModel\Collection\RuleCollection;
-use Levtechdev\SimPaas\Database\SampleDataInterface;
+use Levtechdev\Simpaas\Authorization\Model\Role;
+use Levtechdev\Simpaas\Authorization\Model\User;
+use Levtechdev\Simpaas\Authorization\Repository\RoleRepository;
+use Levtechdev\Simpaas\Authorization\Repository\RuleRepository;
+use Levtechdev\Simpaas\Authorization\Repository\UserRepository;
+use Levtechdev\Simpaas\Authorization\ResourceModel\Collection\RoleCollection;
+use Levtechdev\Simpaas\Authorization\ResourceModel\Collection\RuleCollection;
+use Levtechdev\Simpaas\Database\SampleDataInterface;
 use Exception;
-use Levtechdev\SimPaas\Exceptions\EntityNotFoundException;
+use Levtechdev\Simpaas\Exceptions\EntityNotFoundException;
 use SimPass\Authorization\ResourceModel\Collection\UserCollection;
 
 /**

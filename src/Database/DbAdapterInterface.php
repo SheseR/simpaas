@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\SimPaas\Database;
+namespace Levtechdev\Simpaas\Database;
 
 interface DbAdapterInterface
 {

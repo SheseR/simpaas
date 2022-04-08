@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\SimPaas\Exceptions;
+namespace Levtechdev\Simpaas\Exceptions;
 
 class EntityFieldNotUniqueException extends \Exception
 {
