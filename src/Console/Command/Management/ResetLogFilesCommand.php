@@ -4,7 +4,7 @@ namespace Levtechdev\Simpaas\Console\Command\Management;
 
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
-use SimPass\Console\Command\AbstractCommand;
+use Levtechdev\Simpaas\Console\Command\AbstractCommand;
 
 class ResetLogFilesCommand extends AbstractCommand
 {

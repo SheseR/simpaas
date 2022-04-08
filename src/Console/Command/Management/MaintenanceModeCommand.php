@@ -5,7 +5,7 @@ namespace Levtechdev\Simpaas\Console\Command\Management;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use SimPass\Console\Command\AbstractCommand;
+use Levtechdev\Simpaas\Console\Command\AbstractCommand;
 
 class MaintenanceModeCommand extends AbstractCommand
 {

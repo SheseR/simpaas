@@ -3,7 +3,7 @@
 namespace Levtechdev\Simpaas\Console\Command\Management;
 
 use Illuminate\Console\ConfirmableTrait;
-use SimPass\Console\Command\AbstractCommand;
+use Levtechdev\Simpaas\Console\Command\AbstractCommand;
 
 class KeyGenerateCommand extends AbstractCommand
 {
