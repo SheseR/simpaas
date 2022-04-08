@@ -11,9 +11,30 @@
       "role": "Developer"
     }
   ],
+  "require": {
+    "php": "^8.0",
+    "ext-curl": "*",
+    "psr/log": "^3.0",
+    "illuminate/support": "^9.6",
+    "laravel/lumen-framework": "^9.0",
+    "ext-redis": "*",
+    "illuminate/redis": "^9.7",
+    "ext-simplexml": "*",
+    "ext-pcntl": "*",
+    "ext-posix": "*",
+    "firebase/php-jwt": "^6.1",
+    "zircote/swagger-php": "^4.2"
+  },
   "autoload": {
-    "psr-0": {
-      "SimPaas": "src/"
-    }
-  }
+    "psr-4": {
+      "Levtechdev\\SimPaas\\": "src/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev"
 }
