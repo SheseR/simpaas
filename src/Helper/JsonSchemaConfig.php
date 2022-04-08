@@ -3,7 +3,7 @@
 namespace Levtechdev\Simpaas\Helper;
 
 use Levtechdev\Simpaas\Exceptions\EntityNotDefinedException;
-use App\Core\Model\DataObject;
+use Levtechdev\Simpaas\Model\DataObject;
 
 class JsonSchemaConfig extends Core
 {
@@ -56,9 +56,10 @@ class JsonSchemaConfig extends Core
     }
 
     /**
-     * @param string $entityType
-     *
+     * @param $entityType
+     * @return void
      * @throws EntityNotDefinedException
+     * @throws \JsonException
      */
     protected function make($entityType)
     {
@@ -69,8 +70,9 @@ class JsonSchemaConfig extends Core
 
     /**
      * @param $entityType
-     *
-     * @throws SimPass\Exceptions\EntityNotDefinedException
+     * @return void
+     * @throws EntityNotDefinedException
+     * @throws \JsonException
      */
     protected function processConfig($entityType)
     {

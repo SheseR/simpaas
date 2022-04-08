@@ -13,7 +13,7 @@ use Levtechdev\Simpaas\Authorization\ResourceModel\Collection\RuleCollection;
 use Levtechdev\Simpaas\Database\SampleDataInterface;
 use Exception;
 use Levtechdev\Simpaas\Exceptions\EntityNotFoundException;
-use SimPass\Authorization\ResourceModel\Collection\UserCollection;
+use Levtechdev\Simpaas\Authorization\ResourceModel\Collection\UserCollection;
 
 /**
  *  * Override this class in your app by Service Provider.

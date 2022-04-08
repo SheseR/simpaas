@@ -1,6 +1,6 @@
 <?php
 
-namespace SimPass\Authorization\ResourceModel\Collection;
+namespace Levtechdev\Simpaas\Authorization\ResourceModel\Collection;
 
 use Levtechdev\Simpaas\Authorization\Model\User;
 use Levtechdev\Simpaas\Collection\Redis\AbstractRedisCollection;

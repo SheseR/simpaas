@@ -4,7 +4,7 @@ namespace Levtechdev\Simpaas\Authorization\Repository;
 
 use Levtechdev\Simpaas\Authorization\Model\User;
 use Levtechdev\Simpaas\Repository\Redis\AbstractRedisRepository;
-use SimPass\Authorization\ResourceModel\Collection\UserCollection;
+use Levtechdev\Simpaas\Authorization\ResourceModel\Collection\UserCollection;
 
 /**
  * @method User getDataModel()

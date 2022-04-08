@@ -2,7 +2,7 @@
 
 namespace Levtechdev\Simpaas\Console\Command\Queue;
 
-use SimPass\Console\Command\AbstractCommand;
+use Levtechdev\Simpaas\Console\Command\AbstractCommand;
 
 /**
  * Class BaseQueueCommand

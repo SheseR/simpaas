@@ -8,7 +8,7 @@ use Levtechdev\Simpaas\Authorization\Repository\RoleRepository;
 use Levtechdev\Simpaas\Authorization\Repository\UserRepository;
 use Levtechdev\Simpaas\Exceptions\EntityNotFoundException;
 use Levtechdev\Simpaas\Helper\Core;
-use SimPass\Authorization\ResourceModel\Collection\UserCollection;
+use Levtechdev\Simpaas\Authorization\ResourceModel\Collection\UserCollection;
 
 class Auth extends Core
 {
