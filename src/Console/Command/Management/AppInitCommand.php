@@ -5,7 +5,7 @@ namespace Levtechdev\Simpaas\Console\Command\Management;
 use Levtechdev\Simpaas\Authorization\Model\User;
 use Levtechdev\Simpaas\Authorization\Repository\UserRepository;
 use Levtechdev\Simpaas\Helper\Core;
-use SimPass\Console\Command\AbstractCommand;
+use Levtechdev\Simpaas\Console\Command\AbstractCommand;
 use Levtechdev\Simpaas\Authorization\Migration\SampleData;
 
 class AppInitCommand extends AbstractCommand

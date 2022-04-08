@@ -1,6 +1,6 @@
 <?php
 
-namespace SimPass\Console\Command;
+namespace Levtechdev\Simpass\Console\Command;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
