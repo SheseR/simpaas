@@ -34,11 +34,11 @@
     ]
   },
   "extra":{
-    "laravel":{
-      "providers":[
+    "laravel": {
+      "providers": [
         "Levtechdev\\Simpaas\\RedisProvider",
         "Levtechdev\\Simpaas\\CoreProvider"
-
       ]
-
-    },
+    }
+  }
+}
