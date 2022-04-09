@@ -25,6 +25,7 @@ class SampleData implements SampleDataInterface
         // --- Full roles --- //
         Role::ROLE_ALL                     => [
             '*' => ['*'],
+            '/' => ["GET"]
         ]
     ];
 
