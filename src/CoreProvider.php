@@ -3,8 +3,6 @@
 namespace Levtechdev\Simpaas;
 
 use Illuminate\Encryption\Encrypter;
-use Illuminate\Redis\RedisManager;
-use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Levtechdev\Simpaas\Authorization\Helper\Auth;
 use Levtechdev\Simpaas\Console\Command\Management\AppInitCommand;
