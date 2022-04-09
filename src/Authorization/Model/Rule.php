@@ -5,6 +5,10 @@ namespace Levtechdev\Simpaas\Authorization\Model;
 use Levtechdev\Simpaas\Helper\RandomHash;
 use Levtechdev\Simpaas\Authorization\ResourceModel\Rule as RuleResource;
 
+/**
+ * @method string getEndpoint()
+ * @method array getMethods()
+ */
 class Rule extends Base
 {
     const ENTITY = 'auth_rule';

@@ -23,7 +23,8 @@
     "ext-pcntl": "*",
     "ext-posix": "*",
     "firebase/php-jwt": "^6.1",
-    "zircote/swagger-php": "^4.2"
+    "zircote/swagger-php": "^4.2",
+    "swaggest/json-schema": "^0.12.39"
   },
   "autoload": {
     "psr-4": {

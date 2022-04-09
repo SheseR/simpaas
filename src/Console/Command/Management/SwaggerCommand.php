@@ -4,17 +4,17 @@ namespace Levtechdev\Simpaas\Console\Command\Management;
 
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
-use OpenApi\Annotations\OpenApi;
-use OpenApi\Annotations\Operation;
-use OpenApi\Generator;
 use Levtechdev\Simpaas\Authorization\Repository\RoleRepository;
 use Levtechdev\Simpaas\Authorization\Repository\RuleRepository;
 use Levtechdev\Simpaas\Authorization\Repository\UserRepository;
+use OpenApi\Annotations\OpenApi;
+use OpenApi\Annotations\Operation;
+use OpenApi\Generator;
 
 class SwaggerCommand extends Command
 {
     const SCAN_PATH           = 'app';
-    const PATH                = 'public' . DS . 'swagger' . DS;
+    const PATH                = 'public' . DIRECTORY_SEPARATOR . 'swagger' . DIRECTORY_SEPARATOR;
     const SWAGGER_SCHEMA_FILE = 'api.json';
     const FORMAT              = 'json'; // json|yaml
 
@@ -31,21 +31,12 @@ class SwaggerCommand extends Command
      * @var string
      */
     protected $description = 'Generate IMS Swagger API documentation (into "./public/swagger/api.json" file)';
-
-    /**
-     * @var UserRepository
-     */
-    private UserRepository $userRepository;
-
-    /**
-     * @var RoleRepository
-     */
-    private RoleRepository $roleRepository;
-
-    /**
-     * @var RuleRepository
-     */
-    private RuleRepository $ruleRepository;
+    /** @var UserRepository  */
+    protected UserRepository $userRepository;
+    /** @var RoleRepository  */
+    protected RoleRepository $roleRepository;
+    /** @var RuleRepository  */
+    protected RuleRepository $ruleRepository;
 
     /**
      * @var array
@@ -53,37 +44,31 @@ class SwaggerCommand extends Command
     private array $pathMap;
 
     /**
-     * Swagger constructor.
-     *
-     * @param UserRepository $userRepository
-     * @param RoleRepository $roleRepository
-     * @param RuleRepository $ruleRepository
+     * For testing import products
      */
-    public function __construct(
+    public function handle(
         UserRepository $userRepository,
         RoleRepository $roleRepository,
         RuleRepository $ruleRepository
     ) {
-        $this->userRepository = $userRepository;
-        $this->roleRepository = $roleRepository;
-        $this->ruleRepository = $ruleRepository;
+        try {
+            $this->userRepository = $userRepository;
+            $this->roleRepository = $roleRepository;
+            $this->ruleRepository = $ruleRepository;
 
-        $this->pathMap = $this->getPathMap();
+            $this->pathMap = $this->getPathMap();
 
-        parent::__construct();
-    }
+            $openApi = Generator::scan([base_path(self::SCAN_PATH)]);
+            $this->enrichPathDescriptionByClientAccess($openApi);
 
-    /**
-     * For testing import products
-     */
-    public function handle()
-    {
-        $openApi = Generator::scan([base_path(self::SCAN_PATH)]);
-        $this->enrichPathDescriptionByClientAccess($openApi);
+            $openApi->saveAs(base_path(self::PATH . self::SWAGGER_SCHEMA_FILE), self::FORMAT);
 
-        $openApi->saveAs(base_path(self::PATH . self::SWAGGER_SCHEMA_FILE), self::FORMAT);
+            $this->info('Swagger API documentation created successfully');
+        } catch (\Throwable $e) {
+            dump($e->getMessage());
+            dd($e->getTraceAsString());
+        }
 
-        $this->info('Swagger API documentation created successfully');
     }
 
     /**

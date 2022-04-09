@@ -9,6 +9,7 @@ use Levtechdev\Simpaas\Console\Command\Management\AppInitCommand;
 use Levtechdev\Simpaas\Console\Command\Management\KeyGenerateCommand;
 use Levtechdev\Simpaas\Console\Command\Management\MaintenanceModeCommand;
 use Levtechdev\Simpaas\Console\Command\Management\ResetLogFilesCommand;
+use Levtechdev\Simpaas\Console\Command\Management\SwaggerCommand;
 use Levtechdev\Simpaas\Helper\Operation;
 use Levtechdev\Simpaas\Helper\RandomHash;
 use Levtechdev\Simpaas\Helper\SystemInfo;
@@ -47,7 +48,8 @@ class CoreProvider extends ServiceProvider
                 AppInitCommand::class,
                 KeyGenerateCommand::class,
                 MaintenanceModeCommand::class,
-                ResetLogFilesCommand::class
+                ResetLogFilesCommand::class,
+                SwaggerCommand::class
             ]);
         }
     }

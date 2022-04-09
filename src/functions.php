@@ -1,5 +1,6 @@
 <?php
 const DS = DIRECTORY_SEPARATOR;
+define('API_URL', env('APP_URL', 'http://localhost'));
 
 use Levtechdev\Simpaas\Helper\DateHelper;
 
