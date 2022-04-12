@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\Simpaas\Database\ElasticSearch\Processor;
+namespace Levtechdev\Simpaas\Database\Elasticsearch\Processor;
 
 use Exception;
 use InvalidArgumentException;
