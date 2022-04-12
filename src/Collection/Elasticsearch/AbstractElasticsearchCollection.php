@@ -6,6 +6,7 @@ use JetBrains\PhpStorm\ArrayShape;
 use Levtechdev\Simpaas\Collection\AbstractCollection;
 use Levtechdev\Simpaas\Database\DbAdapterInterface;
 use Levtechdev\Simpaas\Database\ElasticSearch\Builder\QueryBuilder;
+use Levtechdev\Simpaas\Database\Elasticsearch\ElasticSearchAdapter;
 use Levtechdev\Simpaas\Database\SearchCriteria;
 use Levtechdev\Simpaas\Exceptions\EmptyCollectionException;
 use Levtechdev\Simpaas\Exceptions\EntityFieldNotUniqueException;
@@ -13,7 +14,6 @@ use Levtechdev\Simpaas\Exceptions\FilterNotSpecifiedException;
 use Levtechdev\Simpaas\Exceptions\NoDataChangesException;
 use Levtechdev\Simpaas\Model\AbstractModel;
 use Levtechdev\Simpaas\Model\Elasticsearch\AbstractElasticsearchModel;
-use Levtechdev\Simpaas\Service\Db\Adapter\ElasticSearchAdapter;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
 
 class AbstractElasticsearchCollection extends AbstractCollection

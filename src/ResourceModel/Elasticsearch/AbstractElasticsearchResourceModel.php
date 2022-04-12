@@ -5,6 +5,7 @@ use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use Illuminate\Support\Arr;
 use Levtechdev\Simpaas\Database\DbAdapterInterface;
 use Levtechdev\Simpaas\Database\Elasticsearch\Builder\QueryBuilder;
+use Levtechdev\Simpaas\Database\Elasticsearch\ElasticSearchAdapter;
 use Levtechdev\Simpaas\Database\SearchCriteria;
 use Levtechdev\Simpaas\Exceptions\CouldNotDeleteEntity;
 use Levtechdev\Simpaas\Exceptions\CouldNotSaveEntity;
@@ -17,8 +18,6 @@ use Levtechdev\Simpaas\Model\AbstractModel;
 use Levtechdev\Simpaas\Model\DataObject;
 use Levtechdev\Simpaas\Model\Elasticsearch\AbstractElasticsearchModel;
 use Levtechdev\Simpaas\ResourceModel\AbstractResourceModel;
-use Levtechdev\Simpaas\Service\Db\Adapter\ElasticSearchAdapter;
-use Levtechdev\Simpaas\Exceptions\EntityNotDefinedException;
 use Throwable;
 
 class AbstractElasticsearchResourceModel extends AbstractResourceModel
