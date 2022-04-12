@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\Simpaas\Database\ElasticSearch\Builder;
+namespace Levtechdev\Simpaas\Database\Elasticsearch\Builder;
 
 use ONGR\ElasticsearchDSL\Aggregation\AbstractAggregation;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\CompositeAggregation;
