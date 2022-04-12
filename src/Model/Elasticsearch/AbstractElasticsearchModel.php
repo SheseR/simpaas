@@ -11,7 +11,7 @@ use Levtechdev\Simpaas\Model\AbstractModel;
 use Levtechdev\Simpaas\ResourceModel\Elasticsearch\AbstractElasticsearchResourceModel;
 use Throwable;
 
-class AbstractElasticsearchModel extends AbstractModel
+abstract class AbstractElasticsearchModel extends AbstractModel
 {
     const ENTITY           = 'catalog';
     const ENTITY_ID_PREFIX = 'ctlg_';
