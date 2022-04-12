@@ -66,7 +66,7 @@ class Create extends AbstractCommand
             }
         } catch (\Throwable  $e) {
             $message = sprintf('Cannot create index - %s', $e->getMessage());
-            $this->error($message);
+            $this->error($message, $e->getTraceAsString());
         }
     }
 }
