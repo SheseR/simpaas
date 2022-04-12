@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\Simpaas\ElasticSearch\Processor;
+namespace Levtechdev\Simpaas\Database\ElasticSearch\Processor;
 
 use Exception;
 use InvalidArgumentException;
@@ -13,9 +13,8 @@ use Throwable;
 use Levtechdev\Simpaas\Helper\DateHelper;
 use Levtechdev\Simpaas\Model\AbstractModel;
 use Levtechdev\Simpaas\Database\DbAdapterInterface;
-use Levtechdev\Simpaas\Helper\Core;
 use Levtechdev\Simpaas\Helper\Logger as LoggerHelper;
-use Levtechdev\Simpaas\Service\Db\Adapter\ElasticSearchAdapter;
+use Levtechdev\Simpaas\Database\Elasticsearch\ElasticSearchAdapter;
 
 class BulkProcessor
 {

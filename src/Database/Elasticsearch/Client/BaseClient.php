@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Levtechdev\Simpaas\Database\ElasticSearch\Client;
+namespace Levtechdev\Simpaas\Database\Elasticsearch\Client;
 
 use Elasticsearch\Client;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
