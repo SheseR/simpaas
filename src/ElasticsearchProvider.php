@@ -10,9 +10,9 @@ use Levtechdev\Simpaas\Console\Command\Elasticsearch\Merge;
 use Levtechdev\Simpaas\Console\Command\Elasticsearch\MultichannelInit;
 use Levtechdev\Simpaas\Console\Command\Elasticsearch\Reindex;
 use Levtechdev\Simpaas\Database\Elasticsearch\Builder\BaseClientBuilder;
-use Levtechdev\Simpaas\ElasticSearch\Processor\BulkProcessor;
+use Levtechdev\Simpaas\Database\Elasticsearch\ElasticSearchAdapter;
+use Levtechdev\Simpaas\Database\Elasticsearch\Processor\BulkProcessor;
 use Levtechdev\Simpaas\Helper\Logger;
-use Levtechdev\Simpaas\Service\Db\Adapter\ElasticSearchAdapter;
 
 class ElasticsearchProvider extends ServiceProvider
 {
