@@ -3,7 +3,7 @@
 namespace Levtechdev\Simpaas\Model\Elasticsearch;
 
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
-use Levtechdev\Simpaas\ElasticSearch\Processor\BulkProcessor;
+use Levtechdev\Simpaas\Database\ElasticSearch\Processor\BulkProcessor;
 use Levtechdev\Simpaas\Helper\DateHelper;
 use Levtechdev\Simpaas\Helper\Language;
 use Levtechdev\Simpaas\Helper\RandomHash;
