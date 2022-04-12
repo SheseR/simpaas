@@ -1,14 +1,13 @@
 <?php
 
-namespace Levtechdev\Simpaas\Helper;
+namespace Levtechdev\Simpaas\ResourceModel\Mysql;
 
+use JsonException;
 use Levtechdev\Simpaas\Exceptions\EntityNotDefinedException;
-use Levtechdev\Simpaas\Model\DataObject;
+use Levtechdev\Simpaas\ResourceModel\AbstractJsonSchemaConfig;
 
-class JsonSchemaConfig extends Core
+class JsonSchemaConfig extends AbstractJsonSchemaConfig
 {
-    const JSON_SCHEMA_PATH_MASK = '%s' . DS . 'public' . DS . 'json-schema' . DS . '%s' . DS . 'definitions' . DS . '%s';
-
     /**
      * Entity field types
      */
@@ -20,22 +19,14 @@ class JsonSchemaConfig extends Core
     protected array $obscuredFields = [];
 
     /**
-     * @var DataObject
-     */
-    protected DataObject $dataObject;
-
-    public function __construct(DataObject $dataObject)
-    {
-        $this->dataObject = $dataObject;
-    }
-
-    /**
      * @param string $entityType
      *
-     * @return mixed
+     * @return array
+     *
      * @throws EntityNotDefinedException
+     * @throws JsonException
      */
-    public function getFieldTypes($entityType)
+    public function getFieldTypes(string $entityType): array
     {
         $this->make($entityType);
 
@@ -44,11 +35,12 @@ class JsonSchemaConfig extends Core
 
     /**
      * @param string $entityType
+     * @return array
      *
-     * @return DataObject|mixed
      * @throws EntityNotDefinedException
+     * @throws JsonException
      */
-    public function getObscuredFields($entityType)
+    public function getObscuredFields(string $entityType): array
     {
         $this->make($entityType);
 
@@ -56,12 +48,14 @@ class JsonSchemaConfig extends Core
     }
 
     /**
-     * @param $entityType
+     * @param string $entityType
+     *
      * @return void
+     *
      * @throws EntityNotDefinedException
-     * @throws \JsonException
+     * @throws JsonException
      */
-    protected function make($entityType)
+    protected function make(string $entityType)
     {
         if (!array_key_exists($entityType, $this->fieldTypes)) {
             $this->processConfig($entityType);
@@ -69,15 +63,17 @@ class JsonSchemaConfig extends Core
     }
 
     /**
-     * @param $entityType
+     * @param string $entityType
+     *
      * @return void
+     *
      * @throws EntityNotDefinedException
-     * @throws \JsonException
+     * @throws JsonException
      */
-    protected function processConfig($entityType)
+    protected function processConfig(string $entityType)
     {
         $apiVersion = $this->getApiVersion();
-        $fullFilePath = sprintf(self::JSON_SCHEMA_PATH_MASK, base_path(), $apiVersion, $entityType . '.json');
+        $fullFilePath = sprintf(static::JSON_SCHEMA_PATH_MASK, base_path(), $apiVersion, $entityType . '.json');
         if (!file_exists($fullFilePath)) {
             throw new EntityNotDefinedException();
         }
@@ -99,32 +95,29 @@ class JsonSchemaConfig extends Core
     }
 
     /**
-     * @param array      $jsonSchema
+     * @param array $jsonSchema
      * @param int|string $entityType
-     * @param string     $configType
+     * @param string $configType
      *
-     * @return $this
+     * @return void
      */
-    protected function processJsonProperties($jsonSchema, $entityType, $configType)
+    protected function processJsonProperties(array $jsonSchema, int|string $entityType, string $configType): void
     {
         if (empty($jsonSchema[$entityType][$configType])) {
 
-            return $this;
+            return;
         }
 
-        $this->processJsonPropertiesBySchema($jsonSchema[$entityType][$configType], $entityType, $configType);
-
-        return $this;
+        $this->processJsonPropertiesBySchema($jsonSchema[$entityType][$configType], $entityType);
     }
 
     /**
-     * @param $schema
-     * @param $entityType
-     * @param $configType
+     * @param array $schema
+     * @param string $entityType
      *
-     * @return $this
+     * @return void
      */
-    protected function processJsonPropertiesBySchema($schema, $entityType, $configType)
+    protected function processJsonPropertiesBySchema(array $schema, string $entityType): void
     {
         foreach ($schema as $field => $params) {
             $this->fieldTypes[$entityType][$field] = $params['type'];
@@ -133,7 +126,5 @@ class JsonSchemaConfig extends Core
                 $this->obscuredFields[$entityType][] = $field;
             }
         }
-
-        return $this;
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Levtechdev\Simpaas\Collection;
 
+use JetBrains\PhpStorm\ArrayShape;
 use Levtechdev\Simpaas\Database\DbAdapterInterface;
 use Levtechdev\Simpaas\Model\AbstractModel as AbstractModel;
 use Levtechdev\Simpaas\Database\SearchCriteria;
@@ -114,6 +115,20 @@ abstract class AbstractCollection implements IteratorAggregate, Countable, Array
     public function isLoaded(): bool
     {
         return $this->isLoaded;
+    }
+
+    /**
+     * @param int $count
+     * @param int $page
+     *
+     * @return $this
+     */
+    public function limit(int $count, int $page = SearchCriteria::DEFAULT_PAGE): static
+    {
+        $this->limit = $count;
+        $this->page = $page;
+
+        return $this;
     }
 
     /**
@@ -703,7 +718,7 @@ abstract class AbstractCollection implements IteratorAggregate, Countable, Array
      */
     public function addFieldToFilter(
         array|string $field,
-        array|null $filter = null,
+        mixed $filter = null,
         string $multiModeLogic = SearchCriteria::CONDITION_OR
     ): static {
         // multiple fields OR/AND case: addFieldToFilter(
@@ -850,6 +865,7 @@ abstract class AbstractCollection implements IteratorAggregate, Countable, Array
      *
      * @return array
      */
+    #[ArrayShape(['condition' => "string", 'group' => "array"])]
     protected function getFilterGroup(array $fields, string $condition = SearchCriteria::CONDITION_AND): array
     {
         return [

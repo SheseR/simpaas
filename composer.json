@@ -24,7 +24,9 @@
     "ext-posix": "*",
     "firebase/php-jwt": "^6.1",
     "zircote/swagger-php": "^4.2",
-    "swaggest/json-schema": "^0.12.39"
+    "swaggest/json-schema": "^0.12.39",
+    "elasticsearch/elasticsearch": "^7.0",
+    "ongr/elasticsearch-dsl": "^7.2"
   },
   "autoload": {
     "psr-4": {

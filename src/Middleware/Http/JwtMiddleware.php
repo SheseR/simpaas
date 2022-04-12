@@ -11,6 +11,7 @@ use UnexpectedValueException;
 use Firebase\JWT\{JWT, BeforeValidException, ExpiredException, SignatureInvalidException};
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Firebase\JWT\Key;
 use Levtechdev\Simpaas\Authorization\Helper\Auth;
 use Levtechdev\Simpaas\Authorization\Model\Rule;
 use Levtechdev\Simpaas\Authorization\Model\User;
@@ -75,8 +76,7 @@ class JwtMiddleware
                 throw new InvalidAppEnvironmentException('App key is not defined');
             }
 
-            $credentials = JWT::decode($token, $appKey, ['HS256']);
-
+            $credentials = JWT::decode($token, new Key($appKey, 'HS256'));
             if (empty($credentials->uid)) {
                 throw new NotAuthenticatedException();
             }

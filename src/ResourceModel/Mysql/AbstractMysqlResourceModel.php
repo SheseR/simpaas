@@ -2,13 +2,13 @@
 namespace Levtechdev\Simpaas\ResourceModel\Mysql;
 
 use Illuminate\Database\Query\Builder;
+use JsonException;
 use Levtechdev\Simpaas\Database\DbAdapterInterface;
 use Levtechdev\Simpaas\Exceptions\MysqlCallbackException;
 use Levtechdev\Simpaas\Database\Mysql\MysqlAdapter;
 use Levtechdev\Simpaas\Exceptions\CouldNotDeleteEntity;
 use Levtechdev\Simpaas\Exceptions\EntityFieldNotUniqueException;
 use Levtechdev\Simpaas\Exceptions\EntityNotFoundException;
-use Levtechdev\Simpaas\Helper\JsonSchemaConfig;
 use Levtechdev\Simpaas\Model\AbstractModel;
 use Levtechdev\Simpaas\Model\DataObject;
 use Levtechdev\Simpaas\Model\Mysql\AbstractMysqlModel;
@@ -70,8 +70,8 @@ abstract class AbstractMysqlResourceModel extends AbstractResourceModel
      * Prepare entity config/settings (fields mapping, default values, unique fields etc.) from json-schema definitions
      *
      * @return void
-     *
      * @throws EntityNotDefinedException
+     * @throws JsonException
      */
     protected function configureEntity(): void
     {

@@ -185,6 +185,26 @@ abstract class AbstractResourceModel
     ): void;
 
     /**
+     * @return string
+     */
+    public function getConnectionName() : string
+    {
+        return $this->connectionName;
+    }
+
+    /**
+     * @param string $connectionName
+     *
+     * @return $this
+     */
+    public function setConnectionName(string $connectionName): self
+    {
+        $this->connectionName = $connectionName;
+
+        return $this;
+    }
+
+    /**
      * @param AbstractModel $object
      *
      * @return void

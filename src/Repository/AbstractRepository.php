@@ -15,7 +15,7 @@ abstract class AbstractRepository
     /** @var AbstractModel  */
     protected AbstractModel $dataModel;
 
-    public function __construct(public AbstractCollection $collection)
+    public function __construct(protected AbstractCollection $collection)
     {
         $this->dataModel = $collection->getModel();
     }

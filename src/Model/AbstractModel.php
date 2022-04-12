@@ -2,6 +2,7 @@
 
 namespace Levtechdev\Simpaas\Model;
 
+use Levtechdev\Simpaas\Helper\DateHelper;
 use Levtechdev\Simpaas\ResourceModel\AbstractResourceModel;
 use Levtechdev\Simpaas\Exceptions\EntityNotFoundException;
 use Levtechdev\Simpaas\Helper\RandomHash;
@@ -11,6 +12,7 @@ use Exception;
  * @method bool getIsMassSaveEvent()
  * @method AbstractModel setIsMassSaveEvent(bool $flag)
  * @method string getComment()
+ * @method AbstractModel setComment(string $comment = '')
  */
 abstract class AbstractModel extends DataObject
 {
@@ -140,6 +142,18 @@ abstract class AbstractModel extends DataObject
     public function setSlugFieldName(string $fieldName): static
     {
         $this->slugFieldName = $fieldName;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function prepareSystemData(): self
+    {
+        if ($this->hasDataChanges()) {
+            $this->setData('updated_at', date(DateHelper::DATE_TIME_FORMAT));
+        }
 
         return $this;
     }

@@ -134,25 +134,17 @@ class SampleData implements SampleDataInterface
         foreach ($this->getUserRolesMap() as $userClientId => $rolesName) {
 
             $rolesIds = array_values(array_filter($this->cacheRoleNameRoleId, function ($roleName) use ($rolesName) {
-                if (in_array($roleName, $rolesName)) {
-
-                    return true;
-                }
+                return in_array($roleName, $rolesName);
             }, ARRAY_FILTER_USE_KEY));
 
             /** @var User $userModel */
             $userModel = $userCollection->getItemByClientId($userClientId);
             if (empty($userModel->getId())) {
-                $userModel->setClientId($userClientId)
-                    ->setRoleIds($rolesIds)
-                    ->save();
-
-                $userModel->generateToken($userModel->getId(), $userModel->getClientId());
-            } else {
-
-                $userModel->setRoleIds($rolesIds);
-                $userModel->save();
+                $userModel->setClientId($userClientId);
             }
+
+            $userModel->setRoleIds($rolesIds);
+            $userModel->save();
         }
 
         $deletedUsers = array_diff($userCollection->getColumnValues('client_id'), array_keys($this->userRolesMap));
