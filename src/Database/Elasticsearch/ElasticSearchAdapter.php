@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\Simpaas\Service\Db\Adapter;
+namespace Levtechdev\Simpaas\Database\Elasticsearch;
 
 use ElasticSearch\Client;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
