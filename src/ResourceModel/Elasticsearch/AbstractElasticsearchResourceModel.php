@@ -28,6 +28,8 @@ class AbstractElasticsearchResourceModel extends AbstractResourceModel
     const ETL_LOCK_GRACEFUL_TIME         = 60; // seconds
     const READ_ALIAS_NAME_MASK           = '%s%s_read_alias';
     const WRITE_ALIAS_NAME_MASK          = '%s%s_write_alias';
+    // This is like channel logic on cdms. should be overridden on Resource Models
+    const INDEX_SUFFIX                   = '';
     const MAX_INDEX_STATUS_CHEK_ATTEMPTS = 10;
     const INDEX_STATUS_READY             = 'green';
 
@@ -240,7 +242,7 @@ class AbstractElasticsearchResourceModel extends AbstractResourceModel
      */
     public function getReadAlias(): string
     {
-        return sprintf(self::READ_ALIAS_NAME_MASK, $this->getResourceName(), $this->getChannelId());
+        return sprintf(self::READ_ALIAS_NAME_MASK, $this->getResourceName(), $this->getIndexSuffix());
     }
 
     /**
@@ -253,7 +255,7 @@ class AbstractElasticsearchResourceModel extends AbstractResourceModel
      */
     public function getWriteAlias(): string
     {
-        return sprintf(self::WRITE_ALIAS_NAME_MASK, $this->getResourceName(), $this->getChannelId());
+        return sprintf(self::WRITE_ALIAS_NAME_MASK, $this->getResourceName(), $this->getIndexSuffix());
     }
 
     /**
@@ -649,7 +651,7 @@ class AbstractElasticsearchResourceModel extends AbstractResourceModel
      */
     public function generateIndexName(): string
     {
-        return $this->getResourceName() . $this->getChannelId() . '_' . time();
+        return $this->getResourceName() . $this->getIndexSuffix() . '_' . time();
     }
 
     /**
@@ -657,20 +659,9 @@ class AbstractElasticsearchResourceModel extends AbstractResourceModel
      *
      * @return string
      */
-    public function getChannelId(): string
+    public function getIndexSuffix(): string
     {
-        if (!str_contains($this->getConnectionName(), self::INDEX_BY_CHANNEL_PREFIX)) {
-
-            return '';
-        }
-
-        $key = config(sprintf('database.elasticsearch.%s.channel_id', $this->getConnectionName()), '');
-        if (!empty($key)) {
-
-            return '_' . $key;
-        }
-
-        return '';
+        return self::INDEX_SUFFIX;
     }
 
     /**
