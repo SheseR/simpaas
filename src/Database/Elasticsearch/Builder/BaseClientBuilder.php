@@ -6,7 +6,7 @@ namespace Levtechdev\Simpaas\Database\Elasticsearch\Builder;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Elasticsearch\Transport;
-use Levtechdev\Simpaas\Database\ElasticSearch\Client\BaseClient;
+use Levtechdev\Simpaas\Database\Elasticsearch\Client\BaseClient;
 
 class BaseClientBuilder extends ClientBuilder
 {

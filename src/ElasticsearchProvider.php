@@ -30,8 +30,9 @@ class ElasticsearchProvider extends ServiceProvider
     {
         $elasticSearchConfig = $this->app->make('config')->get('database.elasticsearch');
         foreach ($elasticSearchConfig as $connectionName => $connection) {
-            $clientBuilderName = sprintf('elasticsearch-%s', $connectionName);
-            $this->app->singleton($connectionName, function ($app) {
+            $clientBuilderName = sprintf('elasticsearch.%s', $connectionName);
+            dump($clientBuilderName);
+            $this->app->singleton($clientBuilderName, function ($app) {
                 return BaseClientBuilder::create();
             });
 
@@ -54,10 +55,13 @@ class ElasticsearchProvider extends ServiceProvider
      */
     protected function initConnection($config, string $clientBuilderName, $clientName): void
     {
-        $this->connectionNames[] = sprintf('%s-%s', $clientBuilderName , $clientName);
-        $this->app->singleton($clientBuilderName, function ($app) use ($config, $clientBuilderName) {
+        $connectionName =  sprintf('%s.%s', $clientBuilderName , $clientName);
+        $this->connectionNames[] = $connectionName;
+        dump($connectionName);
+        $this->app->singleton($connectionName, function ($app) use ($config, $clientBuilderName) {
             $logConfig = Arr::get($config, 'logger.channel', 'default');
             /** @var BaseClientBuilder $clientBuilder */
+            dump($config);
             $clientBuilder = $app[$clientBuilderName];
 
             $logFile = Arr::get($config, 'logger.log_file', false);
