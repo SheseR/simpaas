@@ -29,11 +29,11 @@ class ElasticSearchAdapter implements DbAdapterInterface
     /** @var string */
     protected string $connection = 'default';
 
-    /** @var BaseClient|null */
-    protected BaseClient|null $readClient = null;
+    /** @var BaseClient[]|null */
+    protected ?array $readClient = null;
 
-    /** @var BaseClient|null */
-    protected BaseClient|null $writeClient = null;
+    /** @var BaseClient[]|null */
+    protected ?array $writeClient = null;
 
     /** @var bool */
     protected bool $forcedWriteConnection = false;
