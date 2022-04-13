@@ -2,7 +2,6 @@
 
 namespace Levtechdev\Simpaas\Database\Elasticsearch;
 
-use ElasticSearch\Client;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Elasticsearch\Helper\Iterators\SearchResponseIterator;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
@@ -30,11 +29,11 @@ class ElasticSearchAdapter implements DbAdapterInterface
     /** @var string */
     protected string $connection = 'default';
 
-    /** @var Client|null */
-    protected Client|null $readClient = null;
+    /** @var BaseClient|null */
+    protected BaseClient|null $readClient = null;
 
-    /** @var Client|null */
-    protected Client|null $writeClient = null;
+    /** @var BaseClient|null */
+    protected BaseClient|null $writeClient = null;
 
     /** @var bool */
     protected bool $forcedWriteConnection = false;
