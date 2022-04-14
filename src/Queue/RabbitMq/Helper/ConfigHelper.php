@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\Simpaas\Helper;
+namespace Levtechdev\Simpaas\Queue\RabbitMQ\Helper;
 
 class ConfigHelper
 {
@@ -16,6 +16,7 @@ class ConfigHelper
      */
     public function addDefaults(array $config): array
     {
+        $config = $config['rabbitmq'];
         $config = $this->addMainKeys($config);
         $config[static::ROOT_KEY_QUEUES] = $this->addAttributesOnEntities($config[static::ROOT_KEY_QUEUES]);
         $config[static::ROOT_KEY_EXCHANGES] = $this->addAttributesOnEntities($config[static::ROOT_KEY_EXCHANGES]);

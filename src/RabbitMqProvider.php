@@ -2,7 +2,7 @@
 namespace Levtechdev\SimPaas;
 
 use Illuminate\Support\ServiceProvider;
-use Levtechdev\Simpaas\Helper\ConfigHelper;
+use Levtechdev\Simpaas\Queue\RabbitMQ\Helper\ConfigHelper;
 use Levtechdev\Simpaas\Queue\Builder\ContainerBuilder;
 use Levtechdev\Simpaas\Queue\RabbitMQ\Container;
 
@@ -25,7 +25,7 @@ class RabbitMqProvider extends ServiceProvider
 
     public function registerContainer()
     {
-        $config = config('laravel_rabbitmq', []);
+        $config = config('queue', []);
         if (!is_array($config)) {
             throw new \RuntimeException(
                 "Invalid configuration provided for LaravelRabbitMQ!"
