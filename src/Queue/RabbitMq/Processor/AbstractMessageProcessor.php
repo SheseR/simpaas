@@ -33,6 +33,7 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
             // Already ack/nack from inside the processor using
             // the protected methods ::ack / ::nack
             if (property_exists($message, self::HANDLED_PROPERTY)) {
+                dump("Already handled!");
                 $this->logger->debug("Already handled!");
                 return;
             }
@@ -61,6 +62,7 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
     protected function ack(AMQPMessage $message)
     {
         try {
+            dump(sprintf("Processed with success message %s", $message->getBody()));
             $this->logger->debug(sprintf("Processed with success message %s", $message->getBody()));
             $message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
             $message->{self::HANDLED_PROPERTY} = true;

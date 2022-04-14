@@ -103,6 +103,14 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     protected $retryCount = 0;
 
     /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
      * @param AMQPConnection $connection
      * @param string $aliasName
      * @param array $queueDetails
@@ -270,42 +278,21 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     }
 
     /**
-     * Publish a message
+     * @param array $data
      *
-     * @param string $message
-     * @param string $routingKey
-     * @return void
-     *
-     * @throws AMQPProtocolChannelException
+     * @return array
      */
-    public function publish(string $message, string $routingKey = ''): void
+    public function prepareMessage(array $data): array
     {
-        if ($this->attributes['auto_create'] === true) {
-            $this->create();
-            $this->bind();
-        }
+        $res = [];
+        $res['body'] = is_array($data['body']) ? $data['body'] : json_encode($data);
 
-        try {
-            $this->getChannel()
-                ->basic_publish(
-                    new AMQPMessage($message),
-                    '',
-                    $this->attributes['name'],
-                    true
-                );
-            $this->retryCount = 0;
-        } catch (AMQPProtocolChannelException $exception) {
-            $this->retryCount++;
-            // Retry publishing with re-connect
-            if ($this->retryCount < self::MAX_RETRIES) {
-                $this->getConnection()->reconnect();
-                $this->publish($message, $routingKey);
+        $res['properties'] = [
+            'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT,
+            'priority'      => $data['priority'] ?? MessageInterface::PRIORITY_LOW
+        ];
 
-                return;
-            }
-
-            throw $exception;
-        }
+        return $res;
     }
 
     /**
@@ -530,10 +517,69 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     /**
      * @param array $inputData
      * @param int $priority
+     *
      * @return void
+     *
+     * @throws AMQPProtocolChannelException
      */
     public function publishBatch(array $inputData, int $priority = MessageInterface::PRIORITY_LOW): void
     {
+        if ($this->attributes['auto_create'] === true) {
+            $this->create();
+            $this->bind();
+        }
+        $channel = $this->getChannel();
+        foreach ($inputData as $message) {
+            $preparedMessage = $this->prepareMessage($message);
 
+            $channel->batch_basic_publish(
+                new AMQPMessage($preparedMessage['body'], $preparedMessage['properties']),
+                '',
+                $this->attributes['name'],
+                true
+            );
+        }
+
+        $channel->publish_batch();
     }
+
+    /**
+     * Publish a message
+     *
+     * @param array $rawMassage
+     * @param string $routingKey
+     * @return void
+     *
+     * @throws AMQPProtocolChannelException
+     */
+    public function publish(array $rawMassage, string $routingKey = ''): void
+    {
+        if ($this->attributes['auto_create'] === true) {
+            $this->create();
+            $this->bind();
+        }
+        $preparedMessage = $this->prepareMessage($rawMassage);
+        try {
+            $this->getChannel()
+                ->basic_publish(
+                    new AMQPMessage($preparedMessage['body'], $preparedMessage['properties']),
+                    '',
+                    $this->attributes['name'],
+                    true
+                );
+            $this->retryCount = 0;
+        } catch (AMQPProtocolChannelException $exception) {
+            $this->retryCount++;
+            // Retry publishing with re-connect
+            if ($this->retryCount < self::MAX_RETRIES) {
+                $this->getConnection()->reconnect();
+                $this->publish($rawMassage, $routingKey);
+
+                return;
+            }
+
+            throw $exception;
+        }
+    }
+
 }

@@ -4,8 +4,19 @@ namespace Levtechdev\Simpaas\Queue\RabbitMq;
 
 interface PublisherInterface
 {
-    public function publishBatch(array $inputData, int $priority = MessageInterface::PRIORITY_LOW): void;
+    /**
+     * @param array $rawBatchData
+     * @param int $priority
+     *
+     * @return void
+     */
+    public function publishBatch(array $rawBatchData, int $priority = MessageInterface::PRIORITY_LOW): void;
 
-    public function publish(string $message, string $routingKey = ''): void;
-
+    /**
+     * @param array $rawMessage
+     * @param string $routingKey
+     *
+     * @return void
+     */
+    public function publish(array $rawMessage, string $routingKey = ''): void;
 }

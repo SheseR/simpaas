@@ -30,6 +30,6 @@ class BasePublisherCommand extends Command
     {
         $container
             ->getPublisher($this->input->getArgument('publisher'))
-            ->publish($this->input->getArgument('message'));
+            ->publish(['body' => $this->input->getArgument('message')]);
     }
 }

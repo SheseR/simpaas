@@ -26,4 +26,9 @@ interface AMQPEntityInterface
      * Reconnect the entity
      */
     public function reconnect(): void;
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): array;
 }
