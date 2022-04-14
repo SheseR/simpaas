@@ -6,6 +6,7 @@ use Levtechdev\Simpaas\Queue\RabbitMq\Connection\AMQPConnection;
 use Levtechdev\Simpaas\Queue\RabbitMq\ConsumerInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\MessageInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\Processor\AbstractMessageProcessor;
+use Levtechdev\Simpaas\Queue\RabbitMq\Processor\MessageProcessorInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\PublisherInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
@@ -155,6 +156,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     public function setMessageProcessor(string $messageProcessor): ConsumerInterface
     {
         $this->messageProcessor = $messageProcessor;
+
         return $this;
     }
 
@@ -487,11 +489,11 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     }
 
     /**
-     * @return MessageInterface
+     * @return MessageProcessorInterface
      */
-    private function getMessageProcessor(): MessageInterface
+    private function getMessageProcessor(): MessageProcessorInterface
     {
-        if (!($this->messageProcessor instanceof MessageInterface)) {
+        if (!($this->messageProcessor instanceof MessageProcessorInterface)) {
             $this->messageProcessor = app($this->messageProcessor);
             if ($this->messageProcessor instanceof AbstractMessageProcessor) {
                 $this->messageProcessor->setLogger($this->logger);
