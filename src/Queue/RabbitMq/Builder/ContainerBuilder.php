@@ -38,7 +38,6 @@ class ContainerBuilder
 
         foreach ($config['consumers'] as $consumerAliasName => $consumerDetails) {
             $prefetchCount    = $consumerDetails['prefetch_count'];
-            //
             $messageProcessor = $consumerDetails['message_processor'];
             if (!array_key_exists($consumerDetails['queue'], $queues)) {
                 throw new \RuntimeException(
