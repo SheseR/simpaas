@@ -116,7 +116,7 @@ return [
         ],
         'publishers' => [
             'publisher-exchange_1' => 'exchange_1',
-            'publisher-queue_1'    => ''
+            'publisher-queue_1'    => 'amq.direct'
         ],
         'consumers' => [
             'consumerAliasName' => [

@@ -5,9 +5,7 @@ namespace Levtechdev\Simpaas\Queue\RabbitMQ\Entity;
 use Levtechdev\Simpaas\Queue\RabbitMQ\MessageInterface;
 use Levtechdev\Simpaas\Queue\RabbitMQ\PublisherInterface;
 use Levtechdev\Simpaas\Queueu\RabbitMq\Connection\AMQPConnection;
-use Levtechdev\Simpaas\Queueu\RabbitMq\Connection\ConnectionPool;
 use PhpAmqpLib\Channel\AMQPChannel;
-use PhpAmqpLib\Connection\AbstractConnection;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 
 class ExchangeEntity implements AMQPEntityInterface, PublisherInterface

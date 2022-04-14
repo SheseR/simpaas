@@ -12,8 +12,33 @@ class ContainerBuilder
     {
         $connections = $this->createConnections($config['connections']);
         $exchanges = $this->createExchanges($config['exchanges'], $connections);
-
+        $queues = [];
         $container = new Container();
+        foreach ($config['publishers'] as $publisherAliasName => $publisherEntityBind) {
+           // @todo
+            if (empty($publisherEntityBind)) {
+                continue;
+            }
+
+            if (array_key_exists($publisherEntityBind, $exchanges)) {
+                $entity = $exchanges[$publisherEntityBind];
+            } elseif (array_key_exists($publisherEntityBind, $queues)) {
+                $entity = $queues[$publisherEntityBind];
+            } else {
+                throw new \RuntimeException(
+                    sprintf(
+                        "Cannot create publisher %s: no exchange or queue named %s defined!",
+                        (string)$publisherAliasName,
+                        (string)$publisherEntityBind
+                    )
+                );
+            }
+
+            $container->addPublisher(
+                $publisherAliasName,
+                $entity
+            );
+        }
 
         return $container;
     }
