@@ -271,7 +271,8 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
      *
      * @param string $message
      * @param string $routingKey
-     * @return mixed|void
+     * @return void
+     *
      * @throws AMQPProtocolChannelException
      */
     public function publish(string $message, string $routingKey = ''): void
@@ -296,21 +297,24 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
             if ($this->retryCount < self::MAX_RETRIES) {
                 $this->getConnection()->reconnect();
                 $this->publish($message, $routingKey);
+
                 return;
             }
+
             throw $exception;
         }
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param int $messages
      * @param int $seconds
      * @param int $maxMemory
+     *
      * @return int
+     *
+     * @throws AMQPProtocolChannelException
      */
-    public function startConsuming(int $messages, int $seconds, int $maxMemory)
+    public function startConsuming(int $messages, int $seconds, int $maxMemory): int
     {
         $this->setupConsumer($messages, $seconds, $maxMemory);
         while (false === $this->shouldStopConsuming()) {

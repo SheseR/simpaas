@@ -2,6 +2,7 @@
 namespace Levtechdev\SimPaas;
 
 use Illuminate\Support\ServiceProvider;
+use Levtechdev\Simpaas\Queue\RabbitMq\Command\BaseConsumerCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\BasePublisherCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\ListEntitiesCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\SetupCommand;
@@ -28,7 +29,8 @@ class RabbitMqProvider extends ServiceProvider
             $this->commands([
               SetupCommand::class,
               ListEntitiesCommand::class,
-              BasePublisherCommand::class
+              BasePublisherCommand::class,
+              BaseConsumerCommand::class
             ]);
         }
     }
