@@ -1,8 +1,8 @@
 <?php
-namespace Levtechdev\Simpaas\Queue\Builder;
+namespace Levtechdev\Simpaas\Queue\RabbitMq\Builder;
 
-use Levtechdev\Simpaas\Queue\RabbitMQ\Container;
-use Levtechdev\Simpaas\Queue\RabbitMQ\Entity\ExchangeEntity;
+use Levtechdev\Simpaas\Queue\RabbitMq\Container;
+use Levtechdev\Simpaas\Queue\RabbitMq\Entity\ExchangeEntity;
 use Levtechdev\Simpaas\Queueu\RabbitMq\Connection\AMQPConnection;
 use RuntimeException;
 

@@ -4,7 +4,7 @@ namespace Levtechdev\SimPaas;
 use Illuminate\Support\ServiceProvider;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\SetupCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\Helper\ConfigHelper;
-use Levtechdev\Simpaas\Queue\Builder\ContainerBuilder;
+use Levtechdev\Simpaas\Queue\RabbitMq\Builder\ContainerBuilder;
 use Levtechdev\Simpaas\Queue\RabbitMq\Container;
 use Levtechdev\Simpaas\Queue\RabbitMQ\PublisherInterface;
 
