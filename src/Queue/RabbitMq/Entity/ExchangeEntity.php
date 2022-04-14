@@ -110,7 +110,9 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
         if (!isset($this->attributes['bind']) || empty($this->attributes['bind'])) {
             return;
         }
+
         foreach ($this->attributes['bind'] as $bindItem) {
+
             try {
                 $this->getChannel()
                     ->queue_bind(

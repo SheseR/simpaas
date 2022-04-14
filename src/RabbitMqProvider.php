@@ -54,6 +54,7 @@ class RabbitMqProvider extends ServiceProvider
                 throw new \RuntimeException("Cannot make Publisher. No publisher identifier provided!");
             }
             $aliasName = $arguments[0];
+
             return $container->getPublisher($aliasName);
         });
     }

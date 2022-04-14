@@ -3,7 +3,8 @@
 namespace Levtechdev\Simpaas\Queue\RabbitMq\Entity;
 
 use Levtechdev\Simpaas\Queue\RabbitMq\Connection\AMQPConnection;
-use Levtechdev\Simpaas\Queue\RabbitMQ\ConsumerInterface;
+use Levtechdev\Simpaas\Queue\RabbitMq\ConsumerInterface;
+use Levtechdev\Simpaas\Queue\RabbitMq\MessageInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\PublisherInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
@@ -194,6 +195,29 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
             }
             // a failure trigger channels closing process
             $this->reconnect();
+        }
+
+        if (!empty($this->attributes['retry_queue'])) {
+            try {
+                $this->getChannel()
+                    ->queue_declare(
+                        $this->attributes['retry_queue']['name'],
+                        false,
+                        $this->attributes['retry_queue']['durable'] ?? true,
+                        false,
+                        false,
+                        false,
+                        $this->attributes['retry_queue']['arguments']
+                    );
+            } catch (AMQPProtocolChannelException $e) {
+                // 406 is a soft error triggered for precondition failure (when redeclaring with different parameters)
+                if (true === $this->attributes['throw_exception_on_redeclare'] || $e->amqp_reply_code !== 406) {
+                    throw $e;
+                }
+                // a failure trigger channels closing process
+                $this->reconnect();
+            }
+
         }
     }
 
@@ -491,5 +515,15 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
             // ever appear
             throw $e;
         }
+    }
+
+    /**
+     * @param array $inputData
+     * @param int $priority
+     * @return void
+     */
+    public function publishBatch(array $inputData, int $priority = MessageInterface::PRIORITY_LOW): void
+    {
+
     }
 }

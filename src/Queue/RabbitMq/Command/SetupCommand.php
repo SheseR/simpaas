@@ -5,6 +5,7 @@ use Illuminate\Console\Command;
 use Levtechdev\Simpaas\Queue\RabbitMq\Container;
 use Levtechdev\Simpaas\Queue\RabbitMQ\Entity\AMQPEntityInterface;
 use Levtechdev\Simpaas\Queue\RabbitMQ\Entity\ExchangeEntity;
+use Levtechdev\Simpaas\Queue\RabbitMq\Entity\QueueEntity;
 use Levtechdev\Simpaas\Queue\RabbitMq\PublisherInterface;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 
@@ -40,7 +41,7 @@ class SetupCommand extends Command
         $forceRecreate = $this->input->getOption('force');
 
         $hasErrors = false;
-        /** @var ExchangeEntity $entity */
+        /** @var QueueEntity|ExchangeEntity $entity */
         foreach ($this->container->getPublishers() as $publisherName => $entity) {
             try {
                 $this->createEntity($entity, 'publisher', $publisherName, $forceRecreate);
@@ -148,7 +149,7 @@ class SetupCommand extends Command
                     (string)$entity->getAliasName()
                 )
             );
-            $this->info('some case');
+
             $entity->delete();
         }
 

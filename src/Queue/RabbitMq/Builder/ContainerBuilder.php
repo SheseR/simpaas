@@ -13,7 +13,8 @@ class ContainerBuilder
     {
         $connections = $this->createConnections($config['connections']);
         $exchanges = $this->createExchanges($config['exchanges'], $connections);
-        $queues = [];
+        $queues = $this->createQueues($config['queues'], $connections);
+
         $container = new Container();
         foreach ($config['publishers'] as $publisherAliasName => $publisherEntityBind) {
            // @todo
@@ -100,7 +101,9 @@ class ContainerBuilder
         $queues = [];
         foreach ($queueConfigList as $queueAliasName => $queueDetails) {
             // verify if the connection exists
-            if (array_key_exists('connection', $queueDetails) && array_key_exists($queueDetails['connection'], $connections)) {
+            if (array_key_exists('connection', $queueDetails) &&
+                !array_key_exists($queueDetails['connection'], $connections)
+            ) {
                 throw new \RuntimeException(
                     sprintf(
                         "Could not create exchange %s: connection name %s is not defined!",
@@ -112,8 +115,12 @@ class ContainerBuilder
 
             $queues[$queueAliasName] = QueueEntity::createQueue(
                 $connections[$queueDetails['connection']],
-                $queueAliasName, array_merge($queueDetails['attributes'],
-                    ['name' => $queueDetails['name']])
+                $queueAliasName,
+                array_merge(
+                    $queueDetails['attributes'],
+                    ['name' => $queueDetails['name']],
+                    ['retry_queue' => $queueDetails['retry_queue'] ?? []],
+                )
             );
         }
 
