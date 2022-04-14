@@ -2,9 +2,9 @@
 namespace Levtechdev\SimPaas;
 
 use Illuminate\Support\ServiceProvider;
-use Levtechdev\Simpaas\Queue\RabbitMQ\Helper\ConfigHelper;
+use Levtechdev\Simpaas\Queue\RabbitMq\Helper\ConfigHelper;
 use Levtechdev\Simpaas\Queue\Builder\ContainerBuilder;
-use Levtechdev\Simpaas\Queue\RabbitMQ\Container;
+use Levtechdev\Simpaas\Queue\RabbitMq\Container;
 
 class RabbitMqProvider extends ServiceProvider
 {

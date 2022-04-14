@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\Simpaas\Queue\RabbitMQ\Helper;
+namespace Levtechdev\Simpaas\Queue\RabbitMq\Helper;
 
 class ConfigHelper
 {
