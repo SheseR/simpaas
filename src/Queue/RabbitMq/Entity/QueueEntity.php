@@ -384,11 +384,11 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     }
 
     /**
-     * Setup the consumer
-     *
      * @param int $messages
      * @param int $seconds
      * @param int $maxMemory
+     * @return void
+     * @throws AMQPProtocolChannelException
      */
     protected function setupConsumer(int $messages, int $seconds, int $maxMemory)
     {
@@ -404,6 +404,11 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
         $this->handleKillSignals();
     }
 
+    /**
+     * @return void
+     *
+     * @throws AMQPProtocolChannelException
+     */
     private function setupChannelConsumer()
     {
         if ($this->attributes['auto_create'] === true) {
