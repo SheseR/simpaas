@@ -40,9 +40,10 @@ class AMQPConnection
     protected string $aliasName = '';
 
     /**
-     * @var null|AbstractConnection
+     * [aliasName => AbstractAMQPConnection]
+     * @var null|array
      */
-    private null|AbstractConnection $connection = null;
+    private  $connection = null;
 
     /**
      * @var null|AMQPChannel

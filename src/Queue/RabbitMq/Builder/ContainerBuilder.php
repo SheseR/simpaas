@@ -4,6 +4,7 @@ namespace Levtechdev\Simpaas\Queue\RabbitMq\Builder;
 use Levtechdev\Simpaas\Queue\RabbitMq\Container;
 use Levtechdev\Simpaas\Queue\RabbitMq\Entity\ExchangeEntity;
 use Levtechdev\Simpaas\Queue\RabbitMq\Connection\AMQPConnection;
+use Levtechdev\Simpaas\Queue\RabbitMq\Entity\QueueEntity;
 use RuntimeException;
 
 class ContainerBuilder
@@ -86,5 +87,36 @@ class ContainerBuilder
         }
         return $exchanges;
 
+    }
+
+    /**
+     * @param array $queueConfigList
+     * @param array $connections
+     *
+     * @return array
+     */
+    protected function createQueues(array $queueConfigList, array $connections): array
+    {
+        $queues = [];
+        foreach ($queueConfigList as $queueAliasName => $queueDetails) {
+            // verify if the connection exists
+            if (array_key_exists('connection', $queueDetails) && array_key_exists($queueDetails['connection'], $connections)) {
+                throw new \RuntimeException(
+                    sprintf(
+                        "Could not create exchange %s: connection name %s is not defined!",
+                        (string)$queueAliasName,
+                        (string)$queueDetails['connection']
+                    )
+                );
+            }
+
+            $queues[$queueAliasName] = QueueEntity::createQueue(
+                $connections[$queueDetails['connection']],
+                $queueAliasName, array_merge($queueDetails['attributes'],
+                    ['name' => $queueDetails['name']])
+            );
+        }
+
+        return $queues;
     }
 }

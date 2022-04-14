@@ -147,7 +147,7 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
     /**
      * Reconnect the entity
      */
-    public function reconnect(): string
+    public function reconnect(): void
     {
         $this->getConnection()->reconnect();
     }

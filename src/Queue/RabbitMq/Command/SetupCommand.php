@@ -5,6 +5,7 @@ use Illuminate\Console\Command;
 use Levtechdev\Simpaas\Queue\RabbitMq\Container;
 use Levtechdev\Simpaas\Queue\RabbitMQ\Entity\AMQPEntityInterface;
 use Levtechdev\Simpaas\Queue\RabbitMQ\Entity\ExchangeEntity;
+use Levtechdev\Simpaas\Queue\RabbitMq\PublisherInterface;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 
 class SetupCommand extends Command
@@ -75,30 +76,30 @@ class SetupCommand extends Command
 //            }
 //        }
 //
-//        $this->output->block("Create binds");
-//        /** @var PublisherInterface $entity */
-//        foreach ($this->container->getPublishers() as $publisherName => $entity) {
-//            try {
-//                $entity->bind();
-//                $this->output->writeln(
-//                    sprintf(
-//                        "Created bind <info>%s</info> for publisher [<fg=yellow>%s</>]",
-//                        (string)$entity->getAliasName(),
-//                        (string)$publisherName
-//                    )
-//                );
-//            } catch (\Exception $e) {
-//                $hasErrors = true;
-//                $this->output->error(
-//                    sprintf(
-//                        "Could not bind entity %s for publisher [%s], got:\n%s",
-//                        (string)$entity->getAliasName(),
-//                        (string)$publisherName,
-//                        (string)$e->getMessage()
-//                    )
-//                );
-//            }
-//        }
+        $this->output->block("Create binds");
+        /** @var PublisherInterface $entity */
+        foreach ($this->container->getPublishers() as $publisherName => $entity) {
+            try {
+                $entity->bind();
+                $this->output->writeln(
+                    sprintf(
+                        "Created bind <info>%s</info> for publisher [<fg=yellow>%s</>]",
+                        (string)$entity->getAliasName(),
+                        (string)$publisherName
+                    )
+                );
+            } catch (\Exception $e) {
+                $hasErrors = true;
+                $this->output->error(
+                    sprintf(
+                        "Could not bind entity %s for publisher [%s], got:\n%s",
+                        (string)$entity->getAliasName(),
+                        (string)$publisherName,
+                        (string)$e->getMessage()
+                    )
+                );
+            }
+        }
 //
 //        /** @var ConsumerInterface $entity */
 //        foreach ($this->container->getConsumers() as $consumerAliasName => $entity) {

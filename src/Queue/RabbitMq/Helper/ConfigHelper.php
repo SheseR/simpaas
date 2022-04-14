@@ -82,6 +82,7 @@ class ConfigHelper
             $consumerDefinition['prefetch_count'] = 1;
             $consumers[$consumerAliasName] = $consumerDefinition;
         }
+
         return $consumers;
     }
 }
