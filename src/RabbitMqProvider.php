@@ -2,6 +2,7 @@
 namespace Levtechdev\SimPaas;
 
 use Illuminate\Support\ServiceProvider;
+use Levtechdev\Simpaas\Queue\RabbitMq\Command\ListEntitiesCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\SetupCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\ConsumerInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\Helper\ConfigHelper;
@@ -24,7 +25,8 @@ class RabbitMqProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-              SetupCommand::class
+              SetupCommand::class,
+              ListEntitiesCommand::class
             ]);
         }
     }
@@ -68,6 +70,9 @@ class RabbitMqProvider extends ServiceProvider
         });
     }
 
+    /**
+     * @return void
+     */
     public function registerConsumers()
     {
         $this->app->singleton(ConsumerInterface::class, function ($application, $arguments) {
