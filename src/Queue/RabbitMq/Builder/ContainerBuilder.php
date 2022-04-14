@@ -16,12 +16,9 @@ class ContainerBuilder
         $queues = $this->createQueues($config['queues'], $connections);
 
         $container = new Container();
-        foreach ($config['publishers'] as $publisherAliasName => $publisherEntityBind) {
-           // @todo
-            if (empty($publisherEntityBind)) {
-                continue;
-            }
 
+        // Publisher can be defined to exchange or queue
+        foreach ($config['publishers'] as $publisherAliasName => $publisherEntityBind) {
             if (array_key_exists($publisherEntityBind, $exchanges)) {
                 $entity = $exchanges[$publisherEntityBind];
             } elseif (array_key_exists($publisherEntityBind, $queues)) {
@@ -36,15 +33,38 @@ class ContainerBuilder
                 );
             }
 
-            $container->addPublisher(
-                $publisherAliasName,
-                $entity
-            );
+            $container->addPublisher($publisherAliasName, $entity);
+        }
+
+        foreach ($config['consumers'] as $consumerAliasName => $consumerDetails) {
+            $prefetchCount    = $consumerDetails['prefetch_count'];
+            //
+            $messageProcessor = $consumerDetails['message_processor'];
+            if (!array_key_exists($consumerDetails['queue'], $queues)) {
+                throw new \RuntimeException(
+                    sprintf(
+                        "Cannot create consumer %s: no queue named %s defined!",
+                        (string)$consumerAliasName,
+                        (string)$consumerDetails['queue']
+                    )
+                );
+            }
+
+            /** @var QueueEntity $entity */
+            $entity = $queues[$consumerDetails['queue']];
+            $entity->setPrefetchCount($prefetchCount);
+            $entity->setMessageProcessor($messageProcessor);
+            $container->addConsumer($consumerAliasName, $entity);
         }
 
         return $container;
     }
 
+    /**
+     * @param array $connectionsConfig
+     *
+     * @return array
+     */
     protected function createConnections(array $connectionsConfig): array
     {
         $connections = [];

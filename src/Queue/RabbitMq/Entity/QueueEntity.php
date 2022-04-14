@@ -10,6 +10,7 @@ use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 use PhpAmqpLib\Exception\AMQPTimeoutException;
 use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Wire\AMQPTable;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerTrait;
@@ -186,7 +187,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
                     $this->attributes['exclusive'],
                     $this->attributes['auto_delete'],
                     $this->attributes['nowait'],
-                    $this->attributes['arguments']
+                    new AMQPTable($this->attributes['arguments'])
                 );
         } catch (AMQPProtocolChannelException $e) {
             // 406 is a soft error triggered for precondition failure (when redeclaring with different parameters)
@@ -207,7 +208,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
                         false,
                         false,
                         false,
-                        $this->attributes['retry_queue']['arguments']
+                        new AMQPTable($this->attributes['retry_queue']['arguments'])
                     );
             } catch (AMQPProtocolChannelException $e) {
                 // 406 is a soft error triggered for precondition failure (when redeclaring with different parameters)
@@ -217,7 +218,6 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
                 // a failure trigger channels closing process
                 $this->reconnect();
             }
-
         }
     }
 
