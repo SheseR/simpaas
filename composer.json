@@ -26,7 +26,8 @@
     "zircote/swagger-php": "^4.2",
     "swaggest/json-schema": "^0.12.39",
     "elasticsearch/elasticsearch": "^7.0",
-    "ongr/elasticsearch-dsl": "^7.2"
+    "ongr/elasticsearch-dsl": "^7.2",
+    "php-amqplib/php-amqplib": "^3.2"
   },
   "autoload": {
     "psr-4": {

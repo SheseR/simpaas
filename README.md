@@ -1,5 +1,11 @@
 # SimPaas app
 
+## Install Simpaas framework in the app
+
+``
+composer require levtechdev\simpaaas
+``
+
 ### Required Service Providers
 ```php
 // bootstrap/app.php
@@ -54,6 +60,10 @@ foreach ($router as $key => $value) {
 
 return $app;
 ```
+
+### Elasticsearch
+
+
 
 ### Authorization
 
