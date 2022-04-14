@@ -6,10 +6,14 @@ use Levtechdev\Simpaas\Queue\RabbitMq\MessageInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\PublisherInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\Connection\AMQPConnection;
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Exception\AMQPChannelClosedException;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
+use PhpAmqpLib\Message\AMQPMessage;
 
 class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
 {
+    const MAX_RETRIES = 3;
+
     const DEFAULTS = [
         'exchange_type'                => 'topic',
         // Whether to check if it exists or to verify existance using argument types (Throws PRECONDITION_FAILED)
@@ -32,11 +36,16 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
         'throw_exception_on_bind_fail' => true,
     ];
 
+    /**
+     * @var int
+     */
+    protected int $retryCount = 0;
+
     public function __construct(
         protected AMQPConnection $connection,
         protected string $aliasName,
-        protected array $attributes = [])
-    {
+        protected array $attributes = []
+    ) {
     }
 
 
@@ -157,5 +166,40 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
     public function publishBatch(array $inputData, int $priority = MessageInterface::PRIORITY_LOW): void
     {
 
+    }
+
+    /**
+     * @param string $message
+     * @param string $routingKey
+     *
+     * @return void
+     *
+     * @throws AMQPProtocolChannelException
+     */
+    public function publish(string $message, string $routingKey = ''): void
+    {
+        if ($this->attributes['auto_create'] === true) {
+            $this->create();
+            $this->bind();
+        }
+        try {
+            $this->getChannel()->basic_publish(
+                new AMQPMessage($message),
+                $this->attributes['name'],
+                $routingKey,
+                true
+            );
+            $this->retryCount = 0;
+        } catch (AMQPChannelClosedException $exception) {
+            $this->retryCount++;
+            // Retry publishing with re-connect
+            if ($this->retryCount < self::MAX_RETRIES) {
+                $this->getConnection()->reconnect();
+                $this->publish($message, $routingKey);
+
+                return;
+            }
+            throw $exception;
+        }
     }
 }

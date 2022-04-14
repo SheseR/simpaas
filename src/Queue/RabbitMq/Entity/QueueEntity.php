@@ -274,7 +274,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
      * @return mixed|void
      * @throws AMQPProtocolChannelException
      */
-    public function publish(string $message, string $routingKey = '')
+    public function publish(string $message, string $routingKey = ''): void
     {
         if ($this->attributes['auto_create'] === true) {
             $this->create();
