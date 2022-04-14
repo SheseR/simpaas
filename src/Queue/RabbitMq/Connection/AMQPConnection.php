@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\Simpaas\Queueu\RabbitMq\Connection;
+namespace Levtechdev\Simpaas\Queue\RabbitMq\Connection;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AbstractConnection;

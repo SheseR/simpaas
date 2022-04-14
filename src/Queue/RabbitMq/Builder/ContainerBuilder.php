@@ -3,7 +3,7 @@ namespace Levtechdev\Simpaas\Queue\RabbitMq\Builder;
 
 use Levtechdev\Simpaas\Queue\RabbitMq\Container;
 use Levtechdev\Simpaas\Queue\RabbitMq\Entity\ExchangeEntity;
-use Levtechdev\Simpaas\Queueu\RabbitMq\Connection\AMQPConnection;
+use Levtechdev\Simpaas\Queue\RabbitMq\Connection\AMQPConnection;
 use RuntimeException;
 
 class ContainerBuilder
