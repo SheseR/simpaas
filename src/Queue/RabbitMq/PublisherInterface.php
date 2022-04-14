@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\Simpaas\Queue\RabbitMQ;
+namespace Levtechdev\Simpaas\Queue\RabbitMq;
 
 interface PublisherInterface
 {

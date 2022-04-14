@@ -1,10 +1,10 @@
 <?php
 
-namespace Levtechdev\Simpaas\Queue\RabbitMQ\Entity;
+namespace Levtechdev\Simpaas\Queue\RabbitMq\Entity;
 
-use Levtechdev\Simpaas\Queue\RabbitMQ\MessageInterface;
-use Levtechdev\Simpaas\Queue\RabbitMQ\PublisherInterface;
-use Levtechdev\Simpaas\Queueu\RabbitMq\Connection\AMQPConnection;
+use Levtechdev\Simpaas\Queue\RabbitMq\MessageInterface;
+use Levtechdev\Simpaas\Queue\RabbitMq\PublisherInterface;
+use Levtechdev\Simpaas\Queue\RabbitMq\Connection\AMQPConnection;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 
