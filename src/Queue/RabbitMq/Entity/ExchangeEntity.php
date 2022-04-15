@@ -2,6 +2,7 @@
 
 namespace Levtechdev\Simpaas\Queue\RabbitMq\Entity;
 
+use JetBrains\PhpStorm\ArrayShape;
 use Levtechdev\Simpaas\Queue\RabbitMq\MessageInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\PublisherInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\Connection\AMQPConnection;
@@ -171,20 +172,25 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
     }
 
     /**
-     * @param array $rawMassage
+     * @param array $rawData
      * @param string $routingKey
      *
      * @return void
      *
      * @throws AMQPProtocolChannelException
      */
-    public function publish(array $rawMassage, string $routingKey = ''): void
+    public function publish(
+        #[ArrayShape([
+            'body' => 'array',
+            'priority' => 'int'
+        ])] array $rawData,
+        string $routingKey = ''): void
     {
         if ($this->attributes['auto_create'] === true) {
             $this->create();
             $this->bind();
         }
-        $preparedMessage = $this->prepareMessage($rawMassage);
+        $preparedMessage = $this->prepareMessage($rawData);
 
         try {
             $this->getChannel()->basic_publish(
@@ -199,7 +205,7 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
             // Retry publishing with re-connect
             if ($this->retryCount < self::MAX_RETRIES) {
                 $this->getConnection()->reconnect();
-                $this->publish($rawMassage, $routingKey);
+                $this->publish($rawData, $routingKey);
 
                 return;
             }
@@ -208,21 +214,27 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
     }
 
     /**
-     * @param array $inputData
+     * @param array $rawBatchData
      * @param int $priority
      *
      * @return void
      *
      * @throws AMQPProtocolChannelException
      */
-    public function publishBatch(array $inputData, int $priority = MessageInterface::PRIORITY_LOW): void
-    {
+    public function publishBatch(
+        #[ArrayShape([[
+            'body' => 'array',
+            'routing_key' => 'string',
+            'priority' => 'string'
+        ]])] array $rawBatchData,
+        int $priority = MessageInterface::PRIORITY_LOW
+    ): void {
         if ($this->attributes['auto_create'] === true) {
             $this->create();
             $this->bind();
         }
         $channel = $this->getChannel();
-        foreach ($inputData as $message) {
+        foreach ($rawBatchData as $message) {
             $preparedMessage = $this->prepareMessage($message);
 
             $channel->batch_basic_publish(
@@ -242,10 +254,13 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
      *
      * @return array
      */
-    public function prepareMessage(array $data): array
+    #[ArrayShape([
+        'body' => 'string',
+        'properties' => 'array'
+    ])]
+    protected function prepareMessage(array $data): array
     {
-        $res = [];
-        $res['body'] = is_array($data['body']) ? $data['body'] : json_encode($data);
+        $res['body'] = is_array($data['body']) ? json_encode($data): $data['body'];
         $res['properties'] = [
             'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT,
             'priority'      => $data['priority'] ?? MessageInterface::PRIORITY_LOW

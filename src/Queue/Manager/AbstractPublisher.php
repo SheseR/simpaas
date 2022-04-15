@@ -51,10 +51,10 @@ abstract class AbstractPublisher
      *
      * @return $this
      */
-    public function publishBatch(array $inputData, int $priority = 1, string $routingKey = ''): static
+    public function publishBatch(array $inputData, string $routingKey = '', int $priority = 1): static
     {
         $isRoutingKeyRequired = $this->publisher instanceof ExchangeEntity;
-        $massages = [];
+        $messages = [];
         foreach ($inputData as $key => $item) {
             if (!$this->isValidItem($item)) {
                 $this->logger->warning(sprintf('Manager: %s: item is not valid', get_called_class()), $item);
@@ -72,7 +72,7 @@ abstract class AbstractPublisher
                 $message['routing_key'] = $item['routing_key'] ?? $routingKey;
             }
 
-            $massages[] = $message;
+            $messages[] = $message;
         }
 
         if (empty($messages)) {
@@ -80,7 +80,7 @@ abstract class AbstractPublisher
             return $this;
         }
 
-        $this->publisher->publishBatch($massages);
+        $this->publisher->publishBatch($messages);
 
         return $this;
     }
