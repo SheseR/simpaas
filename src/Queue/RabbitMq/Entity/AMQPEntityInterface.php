@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\Simpaas\Queue\RabbitMQ\Entity;
+namespace Levtechdev\Simpaas\Queue\RabbitMq\Entity;
 
 interface AMQPEntityInterface
 {
