@@ -92,7 +92,8 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
     {
         try {
             dump(sprintf("Processed with success message %s", $message->getBody()));
-            //$this->logger->debug(sprintf("Processed with success message %s", $message->getBody()));
+
+            $this->logger->debug(sprintf("Processed with success message %s", $message->getBody()));
             $message->getChannel()->basic_ack($message->getDeliveryTag(), $multiple);
             $message->{self::HANDLED_PROPERTY} = true;
         } catch (\Throwable $e) {

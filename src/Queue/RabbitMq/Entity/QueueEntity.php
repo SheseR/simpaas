@@ -163,8 +163,6 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
         $this->connection = $connection;
         $this->aliasName  = $aliasName;
         $this->attributes = $attributes;
-
-        $this->logger = app()->get(Logger::class)->getLogger('test', 'test');
     }
 
     /**
@@ -310,6 +308,8 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
      */
     public function startConsuming(int $messages, int $seconds, int $maxMemory): int
     {
+        dd($this->logger);
+        $this->logger->warning('start    ');
         $this->setupConsumer($messages, $seconds, $maxMemory);
         while (false === $this->shouldStopConsuming()) {
             if (count($this->inputBatchMessages) >= $this->prefetchCount) {
@@ -443,9 +443,9 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     {
         if (!($this->messageProcessor instanceof MessageProcessorInterface)) {
             $this->messageProcessor = app($this->messageProcessor);
-//            if ($this->messageProcessor instanceof AbstractMessageProcessor) {
-//                $this->messageProcessor->setLogger($this->logger);
-//            }
+            if ($this->messageProcessor instanceof AbstractMessageProcessor) {
+                $this->messageProcessor->setLogger($this->logger);
+            }
         }
         return $this->messageProcessor;
     }
@@ -509,7 +509,6 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
      */
     public function addMessageToBatch(AMQPMessage $message): self
     {
-        dump(__METHOD__);
         $this->inputBatchMessages[$message->getDeliveryTag()] = $message;
 
         return $this;

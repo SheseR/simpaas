@@ -87,7 +87,7 @@ class RabbitMqProvider extends ServiceProvider
                 throw new \RuntimeException("Cannot make Consumer. No consumer identifier provided!");
             }
             $aliasName = $arguments[0];
-dd($arguments);
+
             if (!$container->hasConsumer($aliasName)) {
                 throw new \RuntimeException("Cannot make Consumer.\nNo consumer with alias name {$aliasName} found!");
             }
