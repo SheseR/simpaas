@@ -2,6 +2,7 @@
 namespace Levtechdev\SimPaas;
 
 use Illuminate\Support\ServiceProvider;
+use Levtechdev\Simpaas\Helper\Logger;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\BaseConsumerCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\BasePublisherCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\ListEntitiesCommand;
@@ -86,13 +87,18 @@ class RabbitMqProvider extends ServiceProvider
                 throw new \RuntimeException("Cannot make Consumer. No consumer identifier provided!");
             }
             $aliasName = $arguments[0];
-
+dd($arguments);
             if (!$container->hasConsumer($aliasName)) {
                 throw new \RuntimeException("Cannot make Consumer.\nNo consumer with alias name {$aliasName} found!");
             }
             /** @var LoggerAwareInterface $consumer */
             $consumer = $container->getConsumer($aliasName);
-            $consumer->setLogger($application->make(LoggerInterface::class));
+
+            /** @var Logger $loggerHelper */
+            $loggerHelper = $application->make(Logger::class);
+            $logger = $loggerHelper->getLogger('queue', base_path(Logger::LOGS_DIR . 'test-queue.log'));
+
+            $consumer->setLogger($logger);
 
             return $consumer;
         });

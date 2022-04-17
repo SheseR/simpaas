@@ -34,7 +34,7 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
             // the protected methods ::ack / ::nack
             if (property_exists($message, self::HANDLED_PROPERTY)) {
                 dump("Already handled!");
-                $this->logger->debug("Already handled!");
+               // $this->logger->debug("Already handled!");
                 return;
             }
             if ($response === true) {
@@ -43,39 +43,69 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
                 $this->nack($message);
             }
         } catch (\Throwable $e) {
-            $this->logger->error(
-                sprintf(
-                    "Could not process message, got %s from %s in %d for message: %s",
-                    get_class($e) . '-' . $e->getMessage(),
-                    (string)$e->getFile(),
-                    (int)$e->getLine(),
-                    (string)$message->getBody()
-                )
-            );
+            dump($e);
+//            $this->logger->error(
+//                sprintf(
+//                    "Could not process message, got %s from %s in %d for message: %s",
+//                    get_class($e) . '-' . $e->getMessage(),
+//                    (string)$e->getFile(),
+//                    (int)$e->getLine(),
+//                    (string)$message->getBody()
+//                )
+//            );
             $this->nack($message);
         }
+    }
+
+    public function batchConsume(array $messages): mixed
+    {
+        if (empty($messages)) {
+
+            return 1;
+        }
+
+        dump(sprintf(__METHOD__ . 'Start batch consume %s', count($messages)));
+        $this->messageCount = count($messages);
+
+        /**
+         * @var  $deliveryTag
+         * @var AMQPMessage $message
+         */
+        foreach ($messages as $deliveryTag => $message) {
+            dump($deliveryTag, $message->getBody());
+            sleep(2);
+        }
+
+        $lastDeliveryTag = array_key_last($messages);
+        $this->ack($messages[$lastDeliveryTag], true);
+
+        sleep(5);
+        dump('Finnish consume');
+
+        return 1;
     }
 
     /**
      * @param AMQPMessage $message
      */
-    protected function ack(AMQPMessage $message)
+    protected function ack(AMQPMessage $message, bool $multiple = false)
     {
         try {
             dump(sprintf("Processed with success message %s", $message->getBody()));
-            $this->logger->debug(sprintf("Processed with success message %s", $message->getBody()));
-            $message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
+            //$this->logger->debug(sprintf("Processed with success message %s", $message->getBody()));
+            $message->getChannel()->basic_ack($message->getDeliveryTag(), $multiple);
             $message->{self::HANDLED_PROPERTY} = true;
         } catch (\Throwable $e) {
-            $this->logger->error(
-                sprintf(
-                    "Could not process message, got %s from %s in %d for message: %s",
-                    get_class($e) . '-' . $e->getMessage(),
-                    (string)$e->getFile(),
-                    (int)$e->getLine(),
-                    (string)$message->getBody()
-                )
-            );
+            dump($e->getMessage(), $e->getTraceAsString());
+//            $this->logger->error(
+//                sprintf(
+//                    "Could not process message, got %s from %s in %d for message: %s",
+//                    get_class($e) . '-' . $e->getMessage(),
+//                    (string)$e->getFile(),
+//                    (int)$e->getLine(),
+//                    (string)$message->getBody()
+//                )
+//            );
         }
     }
 
@@ -86,10 +116,11 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
     protected function nack(AMQPMessage $message, bool $redeliver = true)
     {
         try {
-            $this->logger->debug(sprintf("Did not processed with success message %s", $message->getBody()));
+            //$this->logger->debug(sprintf("Did not processed with success message %s", $message->getBody()));
             $message->delivery_info['channel']->basic_nack($message->delivery_info['delivery_tag'], false, $redeliver);
             $message->{self::HANDLED_PROPERTY} = true;
         } catch (\Throwable $e) {
+            dump($e->getMessage());
             $this->logger->debug(sprintf("Did not processed with success message %s", $message->getBody()));
         }
     }

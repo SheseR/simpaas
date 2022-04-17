@@ -3,6 +3,7 @@
 namespace Levtechdev\Simpaas\Queue\RabbitMq\Entity;
 
 use JetBrains\PhpStorm\ArrayShape;
+use Levtechdev\Simpaas\Helper\Logger;
 use Levtechdev\Simpaas\Queue\RabbitMq\Connection\AMQPConnection;
 use Levtechdev\Simpaas\Queue\RabbitMq\ConsumerInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\MessageInterface;
@@ -127,6 +128,22 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     }
 
     /**
+     * @return array|null
+     */
+    public function getQueueInfo(): array|null
+    {
+        return $this->getChannel()->queue_declare($this->attributes['name'], true);
+    }
+
+    /**
+     * @return string
+     */
+    public function getQueueAliasName(): string
+    {
+        return $this->attributes['name'];
+    }
+
+    /**
      * @return string
      */
     public function getAliasName(): string
@@ -146,15 +163,19 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
         $this->connection = $connection;
         $this->aliasName  = $aliasName;
         $this->attributes = $attributes;
+
+        $this->logger = app()->get(Logger::class)->getLogger('test', 'test');
     }
 
     /**
      * @param int $prefetchCount
+     *
      * @return ConsumerInterface
      */
     public function setPrefetchCount(int $prefetchCount): ConsumerInterface
     {
         $this->prefetchCount = $prefetchCount;
+
         return $this;
     }
 
@@ -291,6 +312,11 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     {
         $this->setupConsumer($messages, $seconds, $maxMemory);
         while (false === $this->shouldStopConsuming()) {
+            if (count($this->inputBatchMessages) >= $this->prefetchCount) {
+                $this->getMessageProcessor()->batchConsume($this->inputBatchMessages);
+                $this->inputBatchMessages = [];
+            }
+
             try {
                 $this->getChannel()->wait(null, false, 1);
             } catch (AMQPTimeoutException $e) {
@@ -300,12 +326,13 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
             } catch (\Throwable $e) {
                 // stop the consumer
                 $this->stopConsuming();
-                $this->logger->notice(sprintf(
-                    "Stopped consuming: %s in %s:%d",
-                    get_class($e) . ' - ' . $e->getMessage(),
-                    (string)$e->getFile(),
-                    (int)$e->getLine()
-                ));
+                dump($e->getMessage(), $e->getTraceAsString());
+//                $this->logger->notice(sprintf(
+//                    "Stopped consuming: %s in %s:%d",
+//                    get_class($e) . ' - ' . $e->getMessage(),
+//                    (string)$e->getFile(),
+//                    (int)$e->getLine()
+//                ));
                 return 1;
             }
         }
@@ -325,6 +352,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
                     'value' => sprintf("%.2f", microtime(true) - $this->startTime)
                 ]
             );
+
             return true;
         }
         if (memory_get_peak_usage(true) >= ($this->limitMemoryConsumption * 1048576)) {
@@ -335,6 +363,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
                     'value' => (int)round(memory_get_peak_usage(true) / 1048576, 2)
                 ]
             );
+
             return true;
         }
 
@@ -358,57 +387,6 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
         } catch (\Throwable $e) {
             $this->logger->notice("Got " . $e->getMessage() . " of type " . get_class($e));
         }
-    }
-
-    /**
-     * @param int $messages
-     * @param int $seconds
-     * @param int $maxMemory
-     * @return void
-     * @throws AMQPProtocolChannelException
-     */
-    protected function setupConsumer(int $messages, int $seconds, int $maxMemory)
-    {
-        $this->limitMessageCount = $messages;
-        $this->limitSecondsUptime = $seconds;
-        $this->limitMemoryConsumption = $maxMemory;
-
-        $this->startTime = microtime(true);
-
-        $this->setupChannelConsumer();
-
-        $this->registerShutdownHandler();
-        $this->handleKillSignals();
-    }
-
-    /**
-     * @return void
-     *
-     * @throws AMQPProtocolChannelException
-     */
-    private function setupChannelConsumer()
-    {
-        if ($this->attributes['auto_create'] === true) {
-            $this->create();
-            $this->bind();
-        }
-
-        $this->getChannel()
-            ->basic_qos(null, $this->prefetchCount, true);
-
-        $this->getChannel()
-            ->basic_consume(
-                $this->attributes['name'],
-                $this->getConsumerTag(),
-                false,
-                false,
-                false,
-                false,
-                [
-                    $this,
-                    'consume'
-                ]
-            );
     }
 
     /**
@@ -465,11 +443,76 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     {
         if (!($this->messageProcessor instanceof MessageProcessorInterface)) {
             $this->messageProcessor = app($this->messageProcessor);
-            if ($this->messageProcessor instanceof AbstractMessageProcessor) {
-                $this->messageProcessor->setLogger($this->logger);
-            }
+//            if ($this->messageProcessor instanceof AbstractMessageProcessor) {
+//                $this->messageProcessor->setLogger($this->logger);
+//            }
         }
         return $this->messageProcessor;
+    }
+
+    /**
+     * @param int $messages
+     * @param int $seconds
+     * @param int $maxMemory
+     * @return void
+     * @throws AMQPProtocolChannelException
+     */
+    protected function setupConsumer(int $messages, int $seconds, int $maxMemory)
+    {
+        $this->limitMessageCount = $messages;
+        $this->limitSecondsUptime = $seconds;
+        $this->limitMemoryConsumption = $maxMemory;
+
+        $this->startTime = microtime(true);
+
+        $this->setupChannelConsumer();
+
+        $this->registerShutdownHandler();
+        $this->handleKillSignals();
+    }
+
+    /**
+     * @return void
+     *
+     * @throws AMQPProtocolChannelException
+     */
+    private function setupChannelConsumer()
+    {
+        if ($this->attributes['auto_create'] === true) {
+            $this->create();
+            $this->bind();
+        }
+
+        $this->getChannel()
+            ->basic_qos(null, $this->prefetchCount, true);
+
+        $this->getChannel()
+            ->basic_consume(
+                $this->attributes['name'],
+                $this->getConsumerTag(),
+                false,
+                false,
+                false,
+                false,
+                [
+                    $this,
+                    'addMessageToBatch'
+                ]
+            );
+    }
+
+    protected array $inputBatchMessages = [];
+    /**
+     * @param AMQPMessage $message
+     *
+     * @return $this
+     */
+    public function addMessageToBatch(AMQPMessage $message): self
+    {
+        dump(__METHOD__);
+        $this->inputBatchMessages[$message->getDeliveryTag()] = $message;
+
+        return $this;
     }
 
     /**
