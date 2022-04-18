@@ -10,9 +10,6 @@ abstract class AbstractConsumer
     /** @var ConsumerInterface|mixed  */
     protected ConsumerInterface $consumer;
 
-    /** @var bool  */
-    protected bool $isDebugLevel = false;
-
     /**
      * @param Container $container
      *
