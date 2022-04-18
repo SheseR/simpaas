@@ -1,4 +1,5 @@
 <?php
+
 namespace Levtechdev\SimPaas;
 
 use Illuminate\Support\ServiceProvider;
@@ -6,6 +7,8 @@ use Levtechdev\Simpaas\Helper\Logger;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\BaseConsumerCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\BasePublisherCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\ListEntitiesCommand;
+use Levtechdev\Simpaas\Queue\RabbitMq\Command\Processor\ProcessorCronCommand;
+use Levtechdev\Simpaas\Queue\RabbitMq\Command\Processor\ProcessorKillCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\Command\SetupCommand;
 use Levtechdev\Simpaas\Queue\RabbitMq\ConsumerInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\Helper\ConfigHelper;
@@ -27,10 +30,12 @@ class RabbitMqProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-              SetupCommand::class,
-              ListEntitiesCommand::class,
-              BasePublisherCommand::class,
-              BaseConsumerCommand::class
+                ProcessorCronCommand::class,
+                ProcessorKillCommand::class,
+                SetupCommand::class,
+                ListEntitiesCommand::class,
+                BasePublisherCommand::class,
+                BaseConsumerCommand::class
             ]);
         }
     }
@@ -50,10 +55,10 @@ class RabbitMqProvider extends ServiceProvider
         $configHelper = new ConfigHelper();
         $config = $configHelper->addDefaults($config);
         $this->app->singleton(Container::class, function () use ($config) {
-                $container = new ContainerBuilder(app()->get(Logger::class));
+            $container = new ContainerBuilder(app()->get(Logger::class));
 
-                return $container->createContainer($config);
-            }
+            return $container->createContainer($config);
+        }
         );
     }
 

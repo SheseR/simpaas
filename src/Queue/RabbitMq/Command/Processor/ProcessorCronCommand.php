@@ -5,7 +5,7 @@ namespace Levtechdev\Simpaas\Queue\RabbitMq\Command\Processor;
 use Illuminate\Console\Command;
 use Levtechdev\Simpaas\Helper\Logger;
 
-class ProcessorCron extends Command
+class ProcessorCronCommand extends Command
 {
     use EnabledQueueTrait;
 
@@ -59,7 +59,6 @@ class ProcessorCron extends Command
 
         $this->config = config('queue.rabbitmq');
         $enabledQueues = $this->getEnabledQueues();
-
         foreach ($this->config['consumers'] as $consumerAliasName => $consumerConfig) {
             if (!in_array($consumerConfig['queue'], $enabledQueues) || empty($consumerConfig['processor']['script'])) {
 
