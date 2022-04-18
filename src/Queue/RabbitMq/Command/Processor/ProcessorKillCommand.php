@@ -67,7 +67,7 @@ class ProcessorKillCommand extends Command
         $this->log(sprintf(
             '%s - Sent kill (%s) signal for "%s" PID=%s',
             __CLASS__,
-            SIGTERM,
+            SIGINT,
             $processorScript,
             $pid
         ));

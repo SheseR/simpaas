@@ -33,7 +33,6 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
             // Already ack/nack from inside the processor using
             // the protected methods ::ack / ::nack
             if (property_exists($message, self::HANDLED_PROPERTY)) {
-                dump("Already handled!");
                // $this->logger->debug("Already handled!");
                 return;
             }
@@ -43,16 +42,15 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
                 $this->nack($message);
             }
         } catch (\Throwable $e) {
-            dump($e);
-//            $this->logger->error(
-//                sprintf(
-//                    "Could not process message, got %s from %s in %d for message: %s",
-//                    get_class($e) . '-' . $e->getMessage(),
-//                    (string)$e->getFile(),
-//                    (int)$e->getLine(),
-//                    (string)$message->getBody()
-//                )
-//            );
+            $this->logger->error(
+                sprintf(
+                    "Could not process message, got %s from %s in %d for message: %s",
+                    get_class($e) . '-' . $e->getMessage(),
+                    (string)$e->getFile(),
+                    (int)$e->getLine(),
+                    (string)$message->getBody()
+                )
+            );
             $this->nack($message);
         }
     }
@@ -64,7 +62,6 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
             return 1;
         }
 
-        dump(sprintf(__METHOD__ . 'Start batch consume %s', count($messages)));
         $this->messageCount = count($messages);
 
         /**
@@ -72,7 +69,6 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
          * @var AMQPMessage $message
          */
         foreach ($messages as $deliveryTag => $message) {
-            dump($deliveryTag, $message->getBody());
             sleep(2);
         }
 

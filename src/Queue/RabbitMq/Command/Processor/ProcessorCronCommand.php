@@ -60,12 +60,12 @@ class ProcessorCronCommand extends Command
         $this->config = config('queue.rabbitmq');
         $enabledQueues = $this->getEnabledQueues();
         foreach ($this->config['consumers'] as $consumerAliasName => $consumerConfig) {
-            if (!in_array($consumerConfig['queue'], $enabledQueues) || empty($consumerConfig['processor']['script'])) {
+            if (!in_array($consumerConfig['queue'], $enabledQueues) || empty($consumerConfig['processor']['class'])) {
 
                 continue;
             }
 
-            $processorScriptFile = $consumerConfig['processor']['script'];
+            $processorScriptFile = $consumerConfig['processor']['class'];
             $logFile = $directory . ($consumerConfig['processor']['log_file'] ?? 'queue_processors.log');
 
             $processorScript = base_path(self::BASE_PATH_PROCESSORS . DS . $processorScriptFile);
