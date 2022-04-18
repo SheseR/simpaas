@@ -59,7 +59,7 @@ class ProcessorKillCommand extends Command
         }
 
         if (\function_exists('posix_kill')) {
-            $ok = @posix_kill($pid, SIGTERM);
+            $ok = @posix_kill($pid, SIGINT);
         } elseif ($ok = proc_open(sprintf('kill -%d %d', SIGINT, $pid), [2 => ['pipe', 'w']], $pipes)) {
             $ok = false === fgets($pipes[2]);
         }
