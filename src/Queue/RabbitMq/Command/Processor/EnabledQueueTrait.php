@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\Simpaas\Queue\RabbitMq\Command;
+namespace Levtechdev\Simpaas\Queue\RabbitMq\Command\Processor;
 
 trait EnabledQueueTrait
 {

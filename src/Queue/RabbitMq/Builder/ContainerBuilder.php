@@ -1,6 +1,7 @@
 <?php
 namespace Levtechdev\Simpaas\Queue\RabbitMq\Builder;
 
+use Levtechdev\Simpaas\Helper\Logger;
 use Levtechdev\Simpaas\Queue\RabbitMq\Container;
 use Levtechdev\Simpaas\Queue\RabbitMq\Entity\ExchangeEntity;
 use Levtechdev\Simpaas\Queue\RabbitMq\Connection\AMQPConnection;
@@ -9,6 +10,18 @@ use RuntimeException;
 
 class ContainerBuilder
 {
+    public function __construct(protected Logger $loggerHelper)
+    {
+
+    }
+
+    /**
+     * @param array $config
+     *
+     * @return Container
+     *
+     * @throws \Exception
+     */
     public function createContainer(array $config): Container
     {
         $connections = $this->createConnections($config['connections']);
@@ -53,6 +66,11 @@ class ContainerBuilder
             $entity = $queues[$consumerDetails['queue']];
             $entity->setPrefetchCount($prefetchCount);
             $entity->setMessageProcessor($messageProcessor);
+
+            $entity->setLogger($this->loggerHelper->getLogger(
+                'queue', base_path(Logger::LOGS_DIR . $consumerDetails['log_file']))
+            );
+
             $container->addConsumer($consumerAliasName, $entity);
         }
 

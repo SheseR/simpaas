@@ -12,7 +12,7 @@ interface ConsumerInterface
      * @param int $maxMemory    The amount of memory when a consumer should stop consuming
      * @return mixed
      */
-    public function startConsuming(int $messages, int $seconds, int $maxMemory);
+    public function startConsuming(int $messages = 0, int $seconds = 0, int $maxMemory = 0);
 
     /**
      * Stop the consumer

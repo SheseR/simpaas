@@ -17,7 +17,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Wire\AMQPTable;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerTrait;
 
 class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityInterface, LoggerAwareInterface
 {
@@ -32,25 +31,14 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
      * @const array Default connections parameters
      */
     const DEFAULTS = [
-        // Whether to check if it exists or to verify existance using argument types (Throws PRECONDITION_FAILED)
         'passive'                      => false,
-        // Entities with durable will be re-created uppon server restart
-        'durable'                      => false,
-        // whether to use it by only one channel, then it gets deleted
+        'durable'                      => true,
         'exclusive'                    => false,
-        // Whether to delete it when the queue has no event on it
         'auto_delete'                  => false,
-        // Whether to receive a Declare confirmation
         'nowait'                       => false,
-        // Additional arguments for queue creation
         'arguments'                    => [],
-        // Whether to auto create the entity before publishing/consuming it
         'auto_create'                  => false,
-        // whether to "hide" the exception on re-declare.
-        // if the `passive` filter is set true, this is redundant
         'throw_exception_on_redeclare' => true,
-        // whether to throw on exception when trying to
-        // bind to an in-existent queue/exchange
         'throw_exception_on_bind_fail' => true,
     ];
 
@@ -74,36 +62,28 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
      */
     protected int $prefetchCount = 1;
 
-    /**
-     * @var null|string|MessageProcessorInterface
-     */
-    protected $messageProcessor = null;
+    protected  $messageProcessor = null;
 
-    /**
-     * @var int
-     */
+    /** @var int  */
     protected int $limitMessageCount;
 
-    /**
-     * @var int
-     */
+    /** @var int  */
     protected int  $limitSecondsUptime;
 
-    /**
-     * @var int
-     */
+    /** @var int  */
     protected int $limitMemoryConsumption;
 
-    /**
-     * @var double
-     */
-    protected $startTime = 0;
+    /** @var float|int  */
+    protected float $startTime = 0;
 
-    /**
-     * @var int
-     */
-    protected $retryCount = 0;
+    /** @var int  */
+    protected int $retryCount = 0;
 
+    /** @var array  */
+    protected array $inputBatchMessages = [];
+
+    /** @var bool  */
+    protected bool $shoutDown = false;
     /**
      * @return array
      */
@@ -306,10 +286,8 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
      *
      * @throws AMQPProtocolChannelException
      */
-    public function startConsuming(int $messages, int $seconds, int $maxMemory): int
+    public function startConsuming(int $messages = 0, int $seconds = 0, int $maxMemory = 0): int
     {
-        dd($this->logger);
-        $this->logger->warning('start    ');
         $this->setupConsumer($messages, $seconds, $maxMemory);
         while (false === $this->shouldStopConsuming()) {
             if (count($this->inputBatchMessages) >= $this->prefetchCount) {
@@ -326,16 +304,21 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
             } catch (\Throwable $e) {
                 // stop the consumer
                 $this->stopConsuming();
-                dump($e->getMessage(), $e->getTraceAsString());
-//                $this->logger->notice(sprintf(
-//                    "Stopped consuming: %s in %s:%d",
-//                    get_class($e) . ' - ' . $e->getMessage(),
-//                    (string)$e->getFile(),
-//                    (int)$e->getLine()
-//                ));
+                $this->logger->notice(sprintf(
+                    "Stopped consuming: %s in %s:%d",
+                    get_class($e) . ' - ' . $e->getMessage(),
+                    (string)$e->getFile(),
+                    (int)$e->getLine()
+                ));
                 return 1;
             }
         }
+
+        if (!empty($this->inputBatchMessages)) {
+            $this->getMessageProcessor()->batchConsume($this->inputBatchMessages);
+            $this->inputBatchMessages = [];
+        }
+
         return 0;
     }
 
@@ -344,7 +327,12 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
      */
     protected function shouldStopConsuming(): bool
     {
-        if ((microtime(true) - $this->startTime) > $this->limitSecondsUptime) {
+        if ($this->shoutDown) {
+
+            return true;
+        }
+
+        if ($this->limitSecondsUptime > 0 && (microtime(true) - $this->startTime) > $this->limitSecondsUptime) {
             $this->logger->debug(
                 "Stopped consumer",
                 [
@@ -355,7 +343,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
 
             return true;
         }
-        if (memory_get_peak_usage(true) >= ($this->limitMemoryConsumption * 1048576)) {
+        if ($this->limitMemoryConsumption > 0 && memory_get_peak_usage(true) >= ($this->limitMemoryConsumption * 1048576)) {
             $this->logger->debug(
                 "Stopped consumer",
                 [
@@ -367,13 +355,14 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
             return true;
         }
 
-        if ($this->getMessageProcessor()->getProcessedMessages() >= $this->limitMessageCount) {
+        if ($this->limitMessageCount > 0 && $this->getMessageProcessor()->getProcessedMessages() >= $this->limitMessageCount) {
             $this->logger->debug(
                 "Stopped consumer",
                 ['limit' => 'message_count', 'value' => (int)$this->getMessageProcessor()->getProcessedMessages()]
             );
             return true;
         }
+
         return false;
     }
 
@@ -422,8 +411,15 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
      */
     public function catchKillSignal(int $signalNumber)
     {
-        $this->stopConsuming();
         $this->logger->debug(sprintf("Caught signal %d", $signalNumber));
+
+        if ($signalNumber == SIGTERM) {
+            $this->stopConsuming();
+        }
+
+        if ($signalNumber == SIGINT) {
+            $this->shoutDown = true;
+        }
     }
 
     /**
@@ -501,7 +497,6 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
             );
     }
 
-    protected array $inputBatchMessages = [];
     /**
      * @param AMQPMessage $message
      *
@@ -515,6 +510,8 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     }
 
     /**
+     * @TODO it is not implemented yet
+     *
      * @param AMQPMessage $message
      * @throws \Throwable
      */

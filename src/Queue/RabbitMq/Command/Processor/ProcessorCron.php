@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\Simpaas\Queue\RabbitMq\Command;
+namespace Levtechdev\Simpaas\Queue\RabbitMq\Command\Processor;
 
 use Illuminate\Console\Command;
 use Levtechdev\Simpaas\Helper\Logger;

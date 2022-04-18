@@ -13,7 +13,6 @@ use Levtechdev\Simpaas\Queue\RabbitMq\Builder\ContainerBuilder;
 use Levtechdev\Simpaas\Queue\RabbitMq\Container;
 use Levtechdev\Simpaas\Queue\RabbitMQ\PublisherInterface;
 use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
 
 class RabbitMqProvider extends ServiceProvider
 {
@@ -51,7 +50,8 @@ class RabbitMqProvider extends ServiceProvider
         $configHelper = new ConfigHelper();
         $config = $configHelper->addDefaults($config);
         $this->app->singleton(Container::class, function () use ($config) {
-                $container = new ContainerBuilder();
+                $container = new ContainerBuilder(app()->get(Logger::class));
+
                 return $container->createContainer($config);
             }
         );
@@ -92,15 +92,7 @@ class RabbitMqProvider extends ServiceProvider
                 throw new \RuntimeException("Cannot make Consumer.\nNo consumer with alias name {$aliasName} found!");
             }
             /** @var LoggerAwareInterface $consumer */
-            $consumer = $container->getConsumer($aliasName);
-
-            /** @var Logger $loggerHelper */
-            $loggerHelper = $application->make(Logger::class);
-            $logger = $loggerHelper->getLogger('queue', base_path(Logger::LOGS_DIR . 'test-queue.log'));
-
-            $consumer->setLogger($logger);
-
-            return $consumer;
+            return $container->getConsumer($aliasName);
         });
     }
 }

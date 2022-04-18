@@ -2,7 +2,6 @@
 
 namespace Levtechdev\Simpaas\Queue\Manager;
 
-
 use Levtechdev\Simpaas\Exceptions\NotImplementedException;
 use Levtechdev\Simpaas\Helper\Logger;
 use Levtechdev\Simpaas\Queue\RabbitMq\Container;
@@ -15,7 +14,6 @@ abstract class AbstractPublisher
     const LOG_CHANNEL = 'publisher-manager';
     /** @var string */
     const LOG_FILE = 'queue.log';
-
     /** @var string */
     const LOG_PATH = '';
 
@@ -80,7 +78,13 @@ abstract class AbstractPublisher
             return $this;
         }
 
-        $this->publisher->publishBatch($messages);
+        try {
+            $this->publisher->publishBatch($messages);
+        } catch (\Throwable $e) {
+            $this->logger->error(
+                sprintf('Publisher: %s: %s', $this->getAliasName(), $e->getMessage()), ['trace' => $e->getTraceAsString()]
+            );
+        }
 
         return $this;
     }
