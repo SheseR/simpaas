@@ -63,9 +63,19 @@ return $app;
 
 ### Elasticsearch
 
-
-
 ### Authorization
+
+
+### Cams
+```
+.env
+CAMS_HOST=
+CAMS_AUTH_USER=
+CAMS_AUTH_PASSWORD=
+CAMS_QUEUE_MAX_NUMBER_WORKERS=
+ 
+```
+
 
 ### Swagger
 ``

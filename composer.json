@@ -27,7 +27,8 @@
     "swaggest/json-schema": "^0.12.39",
     "elasticsearch/elasticsearch": "^7.0",
     "ongr/elasticsearch-dsl": "^7.2",
-    "php-amqplib/php-amqplib": "^3.2"
+    "php-amqplib/php-amqplib": "^3.2",
+    "guzzlehttp/guzzle": "^7.4"
   },
   "autoload": {
     "psr-4": {
