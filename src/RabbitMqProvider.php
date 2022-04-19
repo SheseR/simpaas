@@ -38,6 +38,10 @@ class RabbitMqProvider extends ServiceProvider
                 BaseConsumerCommand::class
             ]);
         }
+
+        $this->publishes([
+            __DIR__.'/../config/queue.php' => config_path('queue.php'),
+        ]);
     }
 
     /**

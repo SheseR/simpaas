@@ -23,7 +23,7 @@ trait DebugLogTrait
      *
      * @return $this
      */
-    public function debug(string $message, array $context): self
+    public function debug(string $message, array $context = []): self
     {
         if (!($this->logger instanceof LoggerInterface && $this->isDebugLevel)) {
 
@@ -31,5 +31,7 @@ trait DebugLogTrait
         }
 
         $this->logger->debug($message, $context);
+
+        return $this;
     }
 }

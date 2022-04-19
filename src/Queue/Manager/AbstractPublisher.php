@@ -15,7 +15,9 @@ abstract class AbstractPublisher
     /** @var string */
     const LOG_FILE = 'queue.log';
     /** @var string */
-    const LOG_PATH = '';
+    const LOG_PATH = 'queue/';
+
+    const PUBLISH_CHUNK_LENGTH = 500;
 
     protected PublisherInterface $publisher;
     protected \Monolog\Logger $logger;
@@ -30,6 +32,8 @@ abstract class AbstractPublisher
             static::LOG_CHANNEL,
             base_path(Logger::LOGS_DIR . static::LOG_PATH . static::LOG_FILE)
         );
+
+        $this->publisher->setLogger($this->logger);
     }
 
     /**
@@ -79,7 +83,9 @@ abstract class AbstractPublisher
         }
 
         try {
-            $this->publisher->publishBatch($messages);
+            foreach (array_chunk($messages, static::PUBLISH_CHUNK_LENGTH) as $data) {
+                $this->publisher->publishBatch($data);
+            }
         } catch (\Throwable $e) {
             $this->logger->error(
                 sprintf('Publisher: %s: %s', $this->getAliasName(), $e->getMessage()), ['trace' => $e->getTraceAsString()]

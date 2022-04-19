@@ -2,9 +2,15 @@
 
 return [
 
-    // --------------- Mysql config ---------------------- //
     'default' => env('DB_CONNECTION', 'mysql'),
+
     'connections' => [
+
+        /*'testing' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+        ],*/
+
         'mysql' => [
             'read' => [
                 'host' => [
@@ -44,10 +50,7 @@ return [
 
     'migrations' => 'migrations',
 
-    // ---------------Mysql config End ---------------------- //
 
-
-    // ---------------Redis config     ---------------------- //
     /*
     |--------------------------------------------------------------------------
     | Redis Databases
@@ -80,9 +83,6 @@ return [
         ],
     ],
 
-    // ---------------Redis config  END  ------------------------- //
-
-    // ---------------Elasticsearch config ---------------------- //
     'elasticsearch' => [
         'default' => [
             'read_client'  => [
@@ -119,6 +119,4 @@ return [
             ],
         ],
     ]
-
-    // ---------------Elasticsearch config END ---------------------- //
 ];

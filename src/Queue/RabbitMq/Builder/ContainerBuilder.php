@@ -50,7 +50,6 @@ class ContainerBuilder
         }
 
         foreach ($config['consumers'] as $consumerAliasName => $consumerDetails) {
-            $prefetchCount    = $consumerDetails['prefetch_count'];
             $messageProcessor = $consumerDetails['message_processor'];
             if (!array_key_exists($consumerDetails['queue'], $queues)) {
                 throw new \RuntimeException(
@@ -64,7 +63,8 @@ class ContainerBuilder
 
             /** @var QueueEntity $entity */
             $entity = $queues[$consumerDetails['queue']];
-            $entity->setPrefetchCount($prefetchCount);
+            $entity->setPrefetchCount($consumerDetails['prefetch_count']);
+            $entity->setIdleTtl($consumerDetails['idle_ttl'] ?? 0);
             $entity->setMessageProcessor($messageProcessor);
 
             $entity->setLogger($this->loggerHelper->getLogger(

@@ -6,13 +6,19 @@ use JetBrains\PhpStorm\ArrayShape;
 use Levtechdev\Simpaas\Queue\RabbitMq\MessageInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\PublisherInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\Connection\AMQPConnection;
+use Levtechdev\Simpaas\Service\Logger\DebugLogTrait;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Exception\AMQPChannelClosedException;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 use PhpAmqpLib\Message\AMQPMessage;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
-class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
+class ExchangeEntity implements AMQPEntityInterface, PublisherInterface, LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+    use DebugLogTrait;
+
     const MAX_RETRIES = 3;
 
     const DEFAULTS = [
@@ -47,6 +53,8 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
         protected string $aliasName,
         protected array $attributes = []
     ) {
+
+        $this->setIsDebugLevel();
     }
 
     /**
@@ -233,6 +241,14 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
             $this->create();
             $this->bind();
         }
+
+        $this->debug(
+            sprintf('Publishing messages %s ', count($rawBatchData)), [
+                'class'=> get_called_class(),
+                'messages' => $rawBatchData
+            ]
+        );
+        $t = microtime(true);
         $channel = $this->getChannel();
         foreach ($rawBatchData as $message) {
             $preparedMessage = $this->prepareMessage($message);
@@ -246,8 +262,13 @@ class ExchangeEntity implements AMQPEntityInterface, PublisherInterface
         }
 
         $channel->publish_batch();
-    }
 
+        $this->debug(
+            sprintf('Published in %ss in %ss', count($rawBatchData), microtime(true) - $t), [
+                'class'=> get_called_class(),
+            ]
+        );
+    }
 
     /**
      * @param array $data

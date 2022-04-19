@@ -10,6 +10,7 @@ use Levtechdev\Simpaas\Queue\RabbitMq\MessageInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\Processor\AbstractMessageProcessor;
 use Levtechdev\Simpaas\Queue\RabbitMq\Processor\MessageProcessorInterface;
 use Levtechdev\Simpaas\Queue\RabbitMq\PublisherInterface;
+use Levtechdev\Simpaas\Service\Logger\DebugLogTrait;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Exception\AMQPProtocolChannelException;
 use PhpAmqpLib\Exception\AMQPTimeoutException;
@@ -21,6 +22,7 @@ use Psr\Log\LoggerAwareTrait;
 class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
+    use DebugLogTrait;
 
     /**
      * @const int   Retry count when a Channel Closed exeption is thrown
@@ -84,6 +86,8 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
 
     /** @var bool  */
     protected bool $shoutDown = false;
+
+    protected int $idleTtl = 0;
     /**
      * @return array
      */
@@ -143,6 +147,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
         $this->connection = $connection;
         $this->aliasName  = $aliasName;
         $this->attributes = $attributes;
+        $this->setIsDebugLevel();
     }
 
     /**
@@ -153,6 +158,18 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
     public function setPrefetchCount(int $prefetchCount): ConsumerInterface
     {
         $this->prefetchCount = $prefetchCount;
+
+        return $this;
+    }
+
+    /**
+     * @param int $idleTtl
+     *
+     * @return ConsumerInterface
+     */
+    public function setIdleTtl(int $idleTtl): ConsumerInterface
+    {
+        $this->idleTtl = $idleTtl;
 
         return $this;
     }
@@ -296,8 +313,13 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
             }
 
             try {
-                $this->getChannel()->wait(null, false, 1);
+                $this->getChannel()->wait(null, false, $this->idleTtl);
             } catch (AMQPTimeoutException $e) {
+                if (!empty($this->inputBatchMessages)) {
+                    $this->getMessageProcessor()->batchConsume($this->inputBatchMessages);
+                    $this->inputBatchMessages = [];
+                }
+
                 usleep(1000);
                 $this->getConnection()->reconnect();
                 $this->setupChannelConsumer();
@@ -333,7 +355,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
         }
 
         if ($this->limitSecondsUptime > 0 && (microtime(true) - $this->startTime) > $this->limitSecondsUptime) {
-            $this->logger->debug(
+            $this->debug(
                 "Stopped consumer",
                 [
                     'limit' => 'time_limit',
@@ -344,7 +366,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
             return true;
         }
         if ($this->limitMemoryConsumption > 0 && memory_get_peak_usage(true) >= ($this->limitMemoryConsumption * 1048576)) {
-            $this->logger->debug(
+            $this->debug(
                 "Stopped consumer",
                 [
                     'limit' => 'memory_limit',
@@ -356,7 +378,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
         }
 
         if ($this->limitMessageCount > 0 && $this->getMessageProcessor()->getProcessedMessages() >= $this->limitMessageCount) {
-            $this->logger->debug(
+            $this->debug(
                 "Stopped consumer",
                 ['limit' => 'message_count', 'value' => (int)$this->getMessageProcessor()->getProcessedMessages()]
             );
@@ -374,7 +396,11 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
         try {
             $this->getChannel()->basic_cancel($this->getConsumerTag(), false, true);
         } catch (\Throwable $e) {
-            $this->logger->notice("Got " . $e->getMessage() . " of type " . get_class($e));
+            $this->logger->notice(
+                $e->getMessage(), [
+                    'trace' => $e->getTraceAsString()
+                ]
+            );
         }
     }
 
@@ -411,7 +437,7 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
      */
     public function catchKillSignal(int $signalNumber)
     {
-        $this->logger->debug(sprintf("Caught signal %d", $signalNumber));
+        $this->debug(sprintf("Caught signal %d", $signalNumber));
 
         if ($signalNumber == SIGTERM) {
             $this->stopConsuming();
@@ -557,6 +583,15 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
             $this->bind();
         }
         $channel = $this->getChannel();
+
+        $this->debug(
+            sprintf('Publishing messages %s ', count($rawBatchData)), [
+                'class'=> get_called_class(),
+                'messages' => $rawBatchData
+            ]
+        );
+
+        $t = microtime(true);
         foreach ($rawBatchData as $message) {
             $preparedMessage = $this->prepareMessage($message);
 
@@ -569,6 +604,12 @@ class QueueEntity implements PublisherInterface, ConsumerInterface, AMQPEntityIn
         }
 
         $channel->publish_batch();
+
+        $this->debug(
+            sprintf('Published %ss in %ss', count($rawBatchData), microtime(true) - $t), [
+                'class'=> get_called_class(),
+            ]
+        );
     }
 
     /**

@@ -118,6 +118,10 @@ abstract class AbstractMessageProcessor implements MessageProcessorInterface, Lo
             }
             // @todo check for rejecting or redelivering (use enum from 8.1)
         } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+
             $this->nack($messages[$lastDeliveryTag], true);
 
             return 1;

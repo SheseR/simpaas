@@ -4,6 +4,7 @@ namespace Levtechdev\Simpaas\Cams\Service;
 
 use Levtechdev\Simpaas\Cams\Client\CamsClientAdapter;
 use Levtechdev\Simpaas\Helper\Logger as LoggerHelper;
+use Levtechdev\Simpaas\Service\Logger\DebugLogTrait;
 use Psr\Log\LoggerInterface;
 
 
@@ -14,6 +15,8 @@ use Psr\Log\LoggerInterface;
  */
 class NotifierService
 {
+    use DebugLogTrait;
+
     const DESTINATION = 'cams-logs-stream';
 
     /** @var LoggerInterface|null */
@@ -23,7 +26,7 @@ class NotifierService
         protected CamsClientAdapter $camsAdapter,
         protected LoggerHelper $loggerHelper
     ) {
-
+        $this->setIsDebugLevel();
     }
 
     /**
@@ -63,7 +66,9 @@ class NotifierService
         try {
             $batch = $this->prepareBatch($queueItems);
             $this->camsAdapter->addRecords(static::DESTINATION, $batch);
-            $this->getLogger()->debug(sprintf('Sent %s log entries in %ss', count($queueItems), microtime(true) - $t));
+            $this->debug(sprintf('Sent %s log entries in %ss', count($queueItems), microtime(true) - $t), [
+                'class' => get_called_class()
+            ]);
 
             return array_fill_keys(array_keys($queueItems), ['status' => true]);
         } catch (\Throwable $e) {
