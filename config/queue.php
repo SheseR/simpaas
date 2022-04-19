@@ -124,7 +124,6 @@ return [
                     'retry_count' => 3,
                 ],
             ],
-
         ],
         'publishers' => [
             // publisher alias name => queue name or exchange name
@@ -157,7 +156,7 @@ return [
                 'queue' => 'queue_1',
                 'prefetch_count' => 2,
                 'idle_ttl' => 2,
-                'message_processor' => \App\Queue\TestMessageProcessor::class,
+                'message_processor' => '\App\Queue\TestMessageProcessor::class',
                 'log_file' => 'queue/queue_1.log',
                 'processor' => [
                     'class'   => 'Queue1QueueProcessor.php',

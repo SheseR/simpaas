@@ -1,6 +1,6 @@
 <?php
 
-namespace Levtechdev\Simpaas\Cams;
+namespace Levtechdev\Simpaas\Cams\Client;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\BadResponseException;

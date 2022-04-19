@@ -15,7 +15,7 @@ namespace Levtechdev\Simpaas\Helper;
  *   }
  * ),
  * @OA\Server(
- *         description="Integration Management System microservice API",
+ *         description="Simpaas API",
  *         url=API_URL
  * ),
  * @OA\Schemes(format="http"),

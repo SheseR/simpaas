@@ -2,7 +2,6 @@
 namespace Levtechdev\Simpaas\Cams\Client;
 
 use GuzzleHttp\Exception\GuzzleException;
-use Levtechdev\Simpaas\Cams\CamsClient;
 use Levtechdev\Simpaas\Exceptions\BadRequestException;
 use Levtechdev\Simpaas\Exceptions\EntityNotFoundException;
 use Levtechdev\Simpaas\Exceptions\ExternalServiceNotAvailableException;

@@ -13,14 +13,14 @@ class AppInitCommand extends AbstractCommand
     /**
      * @var string
      */
-    protected $signature = 'app:init {--E|initEnv} {--U|initUsers} {--S|initSampleData} {--Q|initQueues} {--rQ|reinitQueues} {--Nt : Do not show tokens list when --initUsers is used}';
+    protected $signature = 'app:init {--E|initEnv} {--U|initUsers} {--S|initSampleData} {--Nt : Do not show tokens list when --initUsers is used}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Initialize IMS application: set .env, create auth roles/rules/users, init RabbitMQ queues etc.';
+    protected $description = 'Initialize Simpaas application: set .env, create auth roles/rules/users';
 
     /** @var Core  */
     protected Core $coreHelper;
@@ -47,105 +47,12 @@ class AppInitCommand extends AbstractCommand
             $this->showUserTokenList($userRepository);
         }
 
-//        if ($this->option('initQueues') || $this->option('reinitQueues')) {
-//            $this->initQueues((bool)$this->option('reinitQueues'));
-//            $ranFlag = true;
-//        }
-
         if (!$ranFlag) {
             $this->warn('App initialization did not run - nothing was instructed to be done');
         } else {
             $this->info('App initialization completed');
         }
     }
-
-//    /**
-//     * @param bool $reinitQueue
-//     */
-//    protected function initQueues(bool $reinitQueue = false)
-//    {
-//        // init exchanges
-//        $configExchanges = config('queue.rabbitmq.exchanges');
-//
-//        foreach ($configExchanges as $exchangeName => $configExchange) {
-//            $exchangeClassName = $configExchange['manager']['class'] ?? null;
-//            if (empty($exchangeClassName)) {
-//                $this->error(sprintf('Manager for exchange %s is not defined in config', $exchangeName));
-//
-//                continue;
-//            }
-//            try {
-//                /** @var AbstractExchangeManager $exchangeManager */
-//                $exchangeManager = app()->make($exchangeClassName);
-//
-//                if (! $exchangeManager instanceof AbstractExchangeManager) {
-//                    $this->error(sprintf('Manager for exchange %s must be type of AbstractExchangeManager', $exchangeName));
-//
-//                    continue;
-//                }
-//
-//                if ($reinitQueue) {
-//                    $exchangeManager->deleteExchange();
-//                    $this->info(sprintf('Exchange "%s" is deleted by %s', $exchangeName, $exchangeClassName));
-//                }
-//
-//                $exchangeManager->initExchange();
-//                $this->info(sprintf('Exchange "%s" is initialized by %s', $exchangeName, $exchangeClassName));
-//            } catch (\Throwable $e) {
-//                $this->error(sprintf(
-//                    'Exchange "%s" cannot be initialized by %s: %s',
-//                    $exchangeName,
-//                    $exchangeClassName,
-//                    $e->getMessage()
-//                ));
-//            }
-//        }
-//
-//        $configQueues = config('queue.rabbitmq.queues');
-//
-//        $this->info('Start init queues');
-//
-//        foreach ($configQueues as $queueName => $configQueue) {
-//            if (empty($configQueue['manager']['class'])) {
-//                $this->error(sprintf('Manager for queue %s is not defined in config', $queueName));
-//
-//                continue;
-//            }
-//
-//            try {
-//
-//                $managerClass = $configQueue['manager']['class'];
-//                $arguments = $configQueue['manager']['arguments'] ?? [];
-//
-//                if (empty($arguments)) {
-//                    /** @var AbstractQueueManager $manager */
-//                    $manager = app()->make($managerClass);
-//                } else {
-//                    /** @var AbstractQueueManager $manager */
-//                    $manager = app()->make($managerClass, $arguments);
-//                }
-//
-//                if ($reinitQueue) {
-//                    $manager->deleteQueue();
-//                    $this->info(sprintf('Queue "%s" deleted by %s', $queueName, $configQueue['manager']['class']));
-//                }
-//
-//                $manager->initQueue();
-//                $this->info(sprintf('Queue "%s" initialized by %s', $queueName, $configQueue['manager']['class']));
-//            }catch (MethodNotAllowedException $e) {
-//                // there is no queue for the manager, so scip it
-//            }catch (\Throwable $e) {
-//                $this->error(sprintf(
-//                    'Queue "%s" cannot be initialized by %s: %s',
-//                    $queueName,
-//                    $configQueue['manager']['class'],
-//                    $e->getMessage()
-//                ));
-//            }
-//        }
-//
-//        $this->info('Completed initializing queues');
-//    }
 
     /**
      * Copy env.example to env
